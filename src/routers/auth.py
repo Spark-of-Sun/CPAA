@@ -42,10 +42,14 @@ async def callback(request: Request):
                 ttl=86400  # 24 hours
             )
         
+        # Debug for checking if login is working
+        #userinfo = token.get("userinfo", {})
+        #print(userinfo)
         # Redirect to dashboard or home
-        return RedirectResponse(url="http://localhost:3000")
+        return RedirectResponse(url="http://localhost:8000")
     
     except Exception as e:
+        print("AUTH ERROR:", str(e))
         raise HTTPException(status_code=400, detail=f"Authentication failed: {str(e)}")
 
 
