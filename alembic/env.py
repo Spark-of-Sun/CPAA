@@ -17,7 +17,7 @@ config = context.config
 # Convert async URL to sync URL for Alembic
 # postgresql+asyncpg:// -> postgresql://
 sync_url = settings.database_url.replace("+asyncpg", "").replace("postgresql://", "postgresql+psycopg2://")
-config.set_main_option("sqlalchemy.url", sync_url)
+config.set_main_option("sqlalchemy.url", sync_url.replace("%", "%%"))
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)

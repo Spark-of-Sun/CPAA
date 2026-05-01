@@ -5,6 +5,10 @@ from fastapi.responses import RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
 from src.services.auth import oauth, get_logout_url
 from src.services.redis_client import redis_client
+from src.database import async_session
+from src.models.db_models import User
+from sqlalchemy import select
+from datetime import datetime
 
 router = APIRouter()
 
@@ -28,24 +32,55 @@ async def callback(request: Request):
         # Get user info
         userinfo = token.get("userinfo", {})
         user_id = userinfo.get("sub")
-        
+        email = userinfo.get("email")
+        name = userinfo.get("name")
+        picture = userinfo.get("picture")
+
+        # Save to database
+        if user_id:
+            try:
+                async with async_session() as session:
+                    result = await session.execute(
+                        select(User).where(User.id == user_id)
+                    )
+                    user = result.scalar_one_or_none()
+                    
+                    if user:
+                        # Update existing user
+                        user.email = email
+                        user.name = name
+                        user.picture = picture
+                        user.last_active_at = datetime.utcnow()
+                    else:
+                        # Create new user
+                        user = User(
+                            id=user_id,
+                            email=email,
+                            name=name,
+                            picture=picture,
+                            created_at=datetime.utcnow(),
+                            updated_at=datetime.utcnow(),
+                        )
+                        session.add(user)
+                    
+                    await session.commit()
+                    print(f"✅ User saved to DB: {user_id}")
+            except Exception as e:
+                print(f"❌ Error saving user to DB: {e}")
+
         # Cache user session in Redis
         if user_id:
             await redis_client.set(
                 f"user_session:{user_id}",
                 {
                     "user_id": user_id,
-                    "email": userinfo.get("email"),
-                    "name": userinfo.get("name"),
-                    "picture": userinfo.get("picture"),
+                    "email": email,
+                    "name": name,
+                    "picture": picture,
                 },
                 ttl=86400  # 24 hours
             )
         
-        # Debug for checking if login is working
-        #userinfo = token.get("userinfo", {})
-        #print(userinfo)
-        # Redirect to dashboard or home
         return RedirectResponse(url="http://localhost:8000")
     
     except Exception as e:
@@ -56,19 +91,15 @@ async def callback(request: Request):
 @router.get("/logout")
 async def logout(request: Request):
     """Logout user and clear session"""
-    # Get user before clearing
     user = request.session.get("user", {})
     userinfo = user.get("userinfo", {})
     user_id = userinfo.get("sub")
     
-    # Clear Redis session
     if user_id:
         await redis_client.delete(f"user_session:{user_id}")
     
-    # Clear local session
     request.session.clear()
     
-    # Redirect to Auth0 logout
     return_to = str(request.url_for("home"))
     return RedirectResponse(url=get_logout_url(return_to))
 

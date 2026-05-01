@@ -109,3 +109,4 @@ zipp==3.23.0
 google-generativeai
 strands-agents[gemini]
 psycopg2-binary
+alembic
