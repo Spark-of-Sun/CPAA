@@ -1,36 +1,5 @@
 # CPAA – Configurable Personal AI Agent
 
-## API Quick Reference
-
-### OAuth Google Authorization
-
-```bash
-curl -X POST https://cpaa.hexelstudio.com/oauth/google/authorize \
-  -H "Cookie: cpaa_session=YOUR_SESSION_TOKEN_HERE"
-```
-
-### WhatsApp Link
-
-```bash
-curl -X POST https://cpaa.hexelstudio.com/whatsapp/link \
-  -H "Content-Type: application/json" \
-  -H "Cookie: cpaa_session=YOUR_SESSION_TOKEN_HERE" \
-  -d '{"phone_number": "918660321292"}'
-```
-
-### WhatsApp Verify
-
-```bash
-curl -X POST https://cpaa.hexelstudio.com/whatsapp/verify \
-  -H "Content-Type: application/json" \
-  -H "Cookie: cpaa_session=YOUR_SESSION_TOKEN_HERE" \
-  -d '{"phone_number": "917300144244", "verification_code": "540798"}'
-```
-
-> Replace `YOUR_SESSION_TOKEN_HERE` with your actual session token value, and update the phone numbers and verification codes as needed.
-> These commands are complete and can be executed directly in your terminal.
----
-
 ## Description
 
 CPAA (Configurable Personal AI Agent) is a personal productivity assistant that connects with daily tools such as **Gmail, Google Calendar, Google Meet, and Slack**.
