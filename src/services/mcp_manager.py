@@ -27,21 +27,18 @@ class MCPManager:
         return f"{self.base_url}?include_composio_helper_actions=true&user_id={user_id}"
     
     def create_mcp_client(self, user_id: str, mcp_config_id: Optional[str] = None) -> MCPClient:
-        """Create MCP client for user's Composio tools"""
         url = self.get_mcp_url(user_id, mcp_config_id)
+        headers = {"x-api-key": self.composio_api_key} if self.composio_api_key else {}
         
-        headers = {}
-        if self.composio_api_key:
-            headers["x-api-key"] = self.composio_api_key
-        
-        client = MCPClient(
-            lambda url=url, headers=headers: streamablehttp_client(
-                url=url,
-                headers=headers if headers else None
+        try:
+            client = MCPClient(
+             
+                lambda: streamablehttp_client(url=url, headers=headers or None)
             )
-        )
-        
-        return client
+            return client
+        except Exception as e:
+            print(f"❌ MCP client creation failed for user {user_id}: {e}")
+            raise
     
     @contextmanager
     def get_tools_context(self, user_id: str, mcp_config_id: Optional[str] = None):

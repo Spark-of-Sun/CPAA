@@ -81,7 +81,7 @@ async def callback(request: Request):
                 ttl=86400  # 24 hours
             )
         
-        return RedirectResponse(url="http://localhost:8000")
+        return RedirectResponse(url="http://localhost:3000")
     
     except Exception as e:
         print("AUTH ERROR:", str(e))

@@ -96,15 +96,18 @@ class WhatsAppLinkingService:
                 )
                 user = result.scalar_one_or_none()
                 
+                now = datetime.utcnow()  # naive datetime, no timezone
+
                 if user:
                     user.whatsapp_number = phone_number
-                    user.whatsapp_linked_at = datetime.now(timezone.utc)
+                    user.whatsapp_linked_at = now
+                    user.updated_at = now
                 else:
-                    # Create user if not exists
                     user = User(
                         id=auth0_user_id,
                         whatsapp_number=phone_number,
-                        whatsapp_linked_at=datetime.now(timezone.utc)
+                        whatsapp_linked_at=now,
+                        updated_at=now
                     )
                     session.add(user)
                 
@@ -119,7 +122,7 @@ class WhatsAppLinkingService:
             {
                 "auth0_user_id": auth0_user_id,
                 "phone_number": phone_number,
-                "linked_at": datetime.now(timezone.utc).isoformat()
+                "linked_at": datetime.utcnow().isoformat()
             },
             ttl=None
         )
@@ -128,7 +131,7 @@ class WhatsAppLinkingService:
         mcp_config = await redis_client.get(f"user_mcp_config:{auth0_user_id}")
         if mcp_config:
             await redis_client.set(f"user_mcp_config:{phone_number}", mcp_config)
-    
+        
     async def unlink(self, auth0_user_id: str) -> bool:
         """Unlink WhatsApp from user"""
         phone = await redis_client.get(f"user_whatsapp:{auth0_user_id}")
