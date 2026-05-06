@@ -121,6 +121,7 @@ async def home():
     }
 
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "service": "personal-agent"}
