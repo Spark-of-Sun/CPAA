@@ -3,13 +3,17 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import declarative_base
 from src.config import settings
 
+# Strip ssl param from URL - pass via connect_args instead
+db_url = settings.database_url.split("?")[0]
+
 # Create async engine
 engine = create_async_engine(
-    settings.database_url,
+    db_url,
     echo=False,
     pool_pre_ping=True,
     pool_size=5,
-    max_overflow=10
+    max_overflow=10,
+    connect_args={"ssl": "require"}
 )
 
 # Session factory

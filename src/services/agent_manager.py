@@ -14,20 +14,23 @@ from mcp.client.streamable_http import streamablehttp_client
 from composio import Composio
 from src.services.redis_client import redis_client
 from strands_tools import current_time, mem0_memory
+from urllib.parse import quote
+
 
 
 # Model
-MODEL = BedrockModel(model_id="amazon.nova-micro-v1:0")
+MODEL = BedrockModel(model_id="arn:aws:bedrock:ap-south-1:600222956679:inference-profile/apac.amazon.nova-micro-v1:0")
 
 # TTLs
 TOOL_CACHE_TTL = 60 * 60          # 1 hour
 USER_URL_CACHE_TTL = 7 * 24 * 60 * 60  # 7 days
-
+# Pre-created MCP server ID from Composio
+MCP_SERVER_ID = os.getenv("COMPOSIO_MCP_SERVER_ID", "")
 BASE_SYSTEM_PROMPT = """You are a WhatsApp assistant.
 
 CRITICAL - YOUR OUTPUT GOES DIRECTLY TO USER:
 Everything you write is sent directly to the user's WhatsApp. There is NO post-processing.
-- Do NOT use <think> tags - user will see them
+- Do NOT use <thinking> tags - user will see them
 - Do NOT write "Tool #1:" or function names - user will see them
 - Do NOT explain your reasoning - user will see it
 - Do NOT mention user_id, google-oauth2, or internal IDs - user will see them
@@ -64,7 +67,7 @@ class AgentManager:
             print("✅ Composio initialized")
 
     # ─── MCP URL ────────────────────────────────────────────────────────────
-
+    #1
     async def _get_user_mcp_url(self, user_id: str) -> Tuple[str, dict]:
         """Get MCP server URL and headers for user (cached 7 days)"""
         cache_key = f"user_mcp_url:{user_id}"
@@ -72,21 +75,20 @@ class AgentManager:
         if cached and isinstance(cached, dict):
             return cached["url"], cached.get("headers", {})
 
-        if not self._composio_client:
-            raise Exception("Composio client not initialized. Check COMPOSIO_API_KEY.")
-
-        # New Composio SDK: create a session for the user
-        session = self._composio_client.create(user_id)
-        mcp_url = session.mcp.url
-        mcp_headers = dict(session.mcp.headers) if session.mcp.headers else {}
-
-        await redis_client.set(
-            cache_key,
-            {"url": mcp_url, "headers": mcp_headers},
-            ttl=USER_URL_CACHE_TTL
+        instance = self._composio_client.mcp.generate(
+            user_id=user_id,
+            mcp_config_id=MCP_SERVER_ID
         )
-        print(f"🔗 MCP session created for {user_id}")
+        # instance is a dict with 'url' key
+        raw_url = instance['url']
+        # Fix: replace %7C back to | so Composio matches the user correctly
+        mcp_url = raw_url.replace('%7C', '|')
+        mcp_headers = {"x-api-key": self.composio_api_key}
+
+        await redis_client.set(cache_key, {"url": mcp_url, "headers": mcp_headers}, ttl=USER_URL_CACHE_TTL)
+        print(f"🔗 MCP URL: {mcp_url}")
         return mcp_url, mcp_headers
+    
 
     # ─── MCP Client ─────────────────────────────────────────────────────────
 

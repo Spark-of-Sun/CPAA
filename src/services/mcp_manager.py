@@ -1,64 +1,91 @@
 """
 MCP Manager - Manages MCP clients for Composio tools per user
-Uses Streamable HTTP transport to connect to Composio MCP servers
+Uses latest Composio API v3 to generate user-specific MCP URLs
 """
 import os
+import httpx
 from typing import Optional, Dict, List
 from contextlib import contextmanager
 from mcp.client.streamable_http import streamablehttp_client
 from strands.tools.mcp import MCPClient
 from src.services.redis_client import redis_client
-from src.config import settings
+
+
+COMPOSIO_BASE_URL = "https://backend.composio.dev"
+MCP_URL_CACHE_TTL = 7 * 24 * 60 * 60  # 7 days
 
 
 class MCPManager:
     """Manages MCP connections for users' Composio tools"""
-    
+
     def __init__(self):
         self.composio_api_key = os.getenv("COMPOSIO_API_KEY", "")
-        self.base_url = "https://backend.composio.dev/v3/mcp"
         self._active_clients: Dict[str, MCPClient] = {}
-    
-    def get_mcp_url(self, user_id: str, mcp_config_id: Optional[str] = None) -> str:
-        """Generate Composio MCP server URL for a user"""
-        if mcp_config_id:
-            return f"{self.base_url}/{mcp_config_id}?include_composio_helper_actions=true&user_id={user_id}"
-        # Default URL without specific config
-        return f"{self.base_url}?include_composio_helper_actions=true&user_id={user_id}"
-    
-    def create_mcp_client(self, user_id: str, mcp_config_id: Optional[str] = None) -> MCPClient:
-        url = self.get_mcp_url(user_id, mcp_config_id)
-        headers = {"x-api-key": self.composio_api_key} if self.composio_api_key else {}
-        
-        try:
-            client = MCPClient(
-             
-                lambda: streamablehttp_client(url=url, headers=headers or None)
+
+    async def get_mcp_url(self, user_id: str) -> str:
+        """
+        Generate Composio MCP server URL for a user using API v3.
+        Cached in Redis for 7 days.
+        """
+        cache_key = f"mcp_url:{user_id}"
+        cached = await redis_client.get(cache_key)
+        if cached:
+            return cached
+
+        # Call Composio API to generate MCP URL
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{COMPOSIO_BASE_URL}/api/v3/mcp/servers/generate",
+                headers={
+                    "x-api-key": self.composio_api_key,
+                    "Content-Type": "application/json"
+                },
+                json={"user_id": user_id},
+                timeout=10.0
             )
-            return client
-        except Exception as e:
-            print(f"❌ MCP client creation failed for user {user_id}: {e}")
-            raise
-    
+
+            if response.status_code != 200:
+                print(f"❌ Failed to generate MCP URL: {response.status_code} {response.text}")
+                # Fallback to direct URL
+                return f"https://connect.composio.dev/mcp?user_id={user_id}"
+
+            data = response.json()
+            mcp_url = data.get("url") or data.get("mcp_url") or data.get("server_url")
+
+            if not mcp_url:
+                print(f"❌ No URL in response: {data}")
+                return f"https://connect.composio.dev/mcp?user_id={user_id}"
+
+            # Cache it
+            await redis_client.set(cache_key, mcp_url, ttl=MCP_URL_CACHE_TTL)
+            print(f"🔗 Generated MCP URL for {user_id}: {mcp_url}")
+            return mcp_url
+
+    def create_mcp_client(self, mcp_url: str) -> MCPClient:
+        """Create MCP client for a given URL"""
+        headers = {"x-api-key": self.composio_api_key} if self.composio_api_key else {}
+
+        client = MCPClient(
+            lambda url=mcp_url, h=headers: streamablehttp_client(
+                url=url,
+                headers=h if h else None
+            )
+        )
+        return client
+
     @contextmanager
-    def get_tools_context(self, user_id: str, mcp_config_id: Optional[str] = None):
+    def get_tools_context(self, mcp_url: str):
         """Context manager for getting tools from MCP"""
-        client = self.create_mcp_client(user_id, mcp_config_id)
-        
+        client = self.create_mcp_client(mcp_url)
         with client:
             tools = client.list_tools_sync()
             yield tools
-    
-    def get_mcp_clients_for_user(self, user_id: str, toolkits: List[str] = None) -> List[MCPClient]:
-        """Get list of MCP clients for user's connected toolkits"""
-        clients = []
-        
-        # Create Composio MCP client
+
+    def get_mcp_clients_for_user(self, mcp_url: str) -> List[MCPClient]:
+        """Get MCP client for user"""
         if self.composio_api_key:
-            composio_client = self.create_mcp_client(user_id)
-            clients.append(composio_client)
-        
-        return clients
+            return [self.create_mcp_client(mcp_url)]
+        return []
 
 
 mcp_manager = MCPManager()
