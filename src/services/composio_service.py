@@ -1,4 +1,5 @@
 """Composio integration service - Tool connections via Connect Link"""
+from http import server
 import os
 import httpx
 from datetime import datetime, timezone
@@ -317,7 +318,33 @@ class ComposioService:
             return []
     
     async def disconnect(self, user_id: str, toolkit: str) -> bool:
-        """Disconnect a toolkit - remove from DB"""
+        """Disconnect a toolkit - revoke on Composio AND remove from DB"""
+        # 1. Find the connection_id for this user+toolkit
+        try:
+            async with async_session() as session:
+                result = await session.execute(
+                    select(ToolConnection).where(
+                        ToolConnection.user_id == user_id,
+                        ToolConnection.toolkit == toolkit.lower()
+                    )
+                )
+                connection = result.scalar_one_or_none()
+        except Exception as e:
+            print(f"Error looking up connection: {e}")
+            connection = None
+    
+        # 2. Revoke it on Composio's side too, if we have a client + connection id
+        if self.client and connection and connection.id:
+            try:
+                self.client.connected_accounts.delete(connection.id)
+                print(f"🔌 Revoked Composio connection {connection.id} for {toolkit}")
+            except Exception as e:
+                # Don't hard-fail the whole disconnect if Composio's side errors —
+                # e.g. already revoked, or connection.id format differs — but log it
+                # loudly since this is exactly what causes the resync bug.
+                print(f"⚠️ Could not revoke Composio connection {connection.id}: {e}")
+    
+        # 3. Remove the local DB row
         try:
             async with async_session() as session:
                 await session.execute(
@@ -331,25 +358,6 @@ class ComposioService:
         except Exception as e:
             print(f"Error disconnecting: {e}")
             return False
-    
-    async def get_connection_status(self, user_id: str, toolkit: str) -> str:
-        """Get connection status for a toolkit from DB"""
-        try:
-            async with async_session() as session:
-                result = await session.execute(
-                    select(ToolConnection).where(
-                        ToolConnection.user_id == user_id,
-                        ToolConnection.toolkit == toolkit.lower()
-                    )
-                )
-                connection = result.scalar_one_or_none()
-                
-                if connection:
-                    return connection.status
-                return "not_connected"
-        except Exception as e:
-            print(f"Error getting status: {e}")
-            return "not_connected"
     
     async def update_connection_last_used(self, user_id: str, toolkit: str):
         """Update last_used_at timestamp for a connection"""
@@ -376,22 +384,24 @@ class ComposioService:
 
     async def ensure_mcp_server(self) -> str:
         """
-        Build/refresh the shared MCP server using whichever toolkits are
-        ENABLED in the Composio dashboard right now. Self-heals: only
-        (re)creates the server when the enabled toolkit set actually changes.
+        Build/refresh the shared MCP server using only toolkits that are BOTH
+        ENABLED in the Composio dashboard AND have a non-empty COMPOSIO_AUTH_*
+        value in .env. Self-heals: only (re)creates the server when the
+        enabled toolkit set actually changes.
         """
         if not self.client:
             raise Exception("Composio not configured. Set COMPOSIO_API_KEY.")
 
         configs = await self.fetch_auth_configs()
+        env_toolkits = self._get_env_enabled_toolkits()  # {toolkit_key: auth_config_id}
+
         toolkits = [
             {"toolkit": c["toolkit"], "auth_config_id": c["id"]}
             for c in configs
-            if c.get("status") == "ENABLED"
+            if c.get("status") == "ENABLED" and c.get("id") in env_toolkits.values()
         ]
         if not toolkits:
-            raise Exception("No ENABLED auth configs found in Composio dashboard.")
-
+            raise Exception("No toolkits are both ENABLED in Composio and set in .env.")
         fingerprint = ",".join(sorted(t["toolkit"] for t in toolkits))
         cached = await redis_client.get("mcp_server_fingerprint")
 
