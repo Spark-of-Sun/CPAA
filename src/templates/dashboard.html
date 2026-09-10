@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPAA - Personal AI Agent</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                extend: {
+                    colors: {
+                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
+                        dark: { 800: '#1e1e1e', 900: '#121212', 950: '#0a0a0a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.15s ease-out; }
+        .nav-item.active { background: linear-gradient(90deg, rgba(34,197,94,0.1) 0%, transparent 100%); border-left: 3px solid #22c55e; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); } 50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } }
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        .glass { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+    </style>
+</head>
+<body class="h-full bg-gradient-to-br from-gray-50 to-gray-100 text-gray-700 antialiased">
+    
+    <!-- Loading -->
+    <div id="loading" class="fixed inset-0 z-50 bg-dark-950 flex flex-col items-center justify-center">
+        <div class="relative">
+            <div class="w-16 h-16 border-4 border-brand-500/20 rounded-full"></div>
+            <div class="absolute top-0 left-0 w-16 h-16 border-4 border-transparent border-t-brand-500 rounded-full animate-spin"></div>
+        </div>
+        <p class="mt-6 text-gray-400 text-sm font-medium tracking-wider">Loading CPAA...</p>
+    </div>
+
+    <!-- Auth -->
+    <div id="auth-section" class="hidden min-h-screen flex items-center justify-center p-6">
+        <div class="max-w-md w-full">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-white mb-6 shadow-lg shadow-brand-500/30">
+                    <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">CPAA</h1>
+                <p class="text-gray-500">Composio Personal AI Agent</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-2 text-center">Welcome Back</h2>
+                <p class="text-gray-500 text-sm text-center mb-6">Sign in to access your personal AI assistant</p>
+                <a href="/auth/login" class="flex items-center justify-center gap-3 w-full py-3.5 px-4 bg-dark-900 hover:bg-dark-800 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    Continue with Auth0
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard-section" class="hidden flex h-screen">
+        
+        <!-- Sidebar -->
+        <aside class="w-72 bg-white border-r border-gray-200 flex flex-col hidden lg:flex">
+            <div class="h-16 flex items-center px-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-500/20">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-gray-900">CPAA</span>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-wider">Personal Agent</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 py-6 space-y-1">
+                <button onclick="switchTab('overview')" id="nav-overview" class="nav-item active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 transition-all">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    Overview
+                </button>
+                <button onclick="switchTab('channels')" id="nav-channels" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 transition-all">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    WhatsApp
+                    <span id="nav-wa-badge" class="ml-auto w-2.5 h-2.5 rounded-full bg-gray-300"></span>
+                </button>
+                <button onclick="switchTab('integrations')" id="nav-integrations" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 transition-all">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+                    Integrations
+                </button>
+                <button onclick="switchTab('memory')" id="nav-memory" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 transition-all">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    Memory
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-gray-100">
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-bold text-sm">
+                        <span id="user-initials">U</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p id="user-name-nav" class="text-sm font-semibold text-gray-900 truncate">User</p>
+                        <p id="user-email-nav" class="text-xs text-gray-500 truncate">user@example.com</p>
+                    </div>
+                    <button onclick="logout()" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden">
+            <header class="h-16 bg-white/80 glass border-b border-gray-200 flex items-center justify-between px-6 lg:px-8">
+                <h1 id="page-title" class="text-lg font-bold text-gray-900">Overview</h1>
+                <div class="hidden"><h2 id="user-name"></h2><p id="user-email"></p></div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6 lg:p-8">
+
+                <!-- Overview Tab -->
+                <div id="tab-overview" class="tab-content active max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm font-medium text-gray-500">Status</span>
+                                <span class="px-2.5 py-1 bg-brand-100 text-brand-700 text-xs font-semibold rounded-full">Online</span>
+                            </div>
+                            <p class="text-3xl font-bold text-gray-900">Active</p>
+                            <p class="text-xs text-gray-400 mt-1">Agent ready</p>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm font-medium text-gray-500">Memories</span>
+                                <span class="text-2xl">🧠</span>
+                            </div>
+                            <p id="overview-memory-count" class="text-3xl font-bold text-gray-900">0</p>
+                            <p class="text-xs text-gray-400 mt-1">Facts stored</p>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm font-medium text-gray-500">Integrations</span>
+                                <span class="text-2xl">🔌</span>
+                            </div>
+                            <p id="overview-tools-count" class="text-3xl font-bold text-gray-900">0</p>
+                            <p class="text-xs text-gray-400 mt-1">Tools connected</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-dark-900 to-dark-950 rounded-2xl p-8 text-white">
+                        <div class="max-w-lg">
+                            <h3 class="text-xl font-bold mb-2">Quick Start Guide</h3>
+                            <p class="text-gray-400 text-sm mb-6">Connect WhatsApp and enable integrations to unlock your AI assistant's full potential.</p>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="switchTab('channels')" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition shadow-lg shadow-brand-500/20">
+                                    Connect WhatsApp
+                                </button>
+                                <button onclick="switchTab('integrations')" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-xl transition">
+                                    Browse Tools
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WhatsApp Tab -->
+                <div id="tab-channels" class="tab-content max-w-2xl mx-auto">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-gray-100 flex items-center gap-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">WhatsApp Connection</h3>
+                                <p class="text-sm text-gray-500">Primary communication channel</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-8">
+                            <div id="wa-status-badge" class="hidden"></div>
+
+                            <div id="whatsapp-not-linked" class="hidden">
+                                <div id="step-phone" class="max-w-sm mx-auto">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                    <div class="flex gap-2 mb-4">
+                                        <div class="relative w-20">
+                                            <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 text-sm">+</span>
+                                            <input type="text" id="country-code" value="91" class="w-full pl-7 pr-2 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm">
+                                        </div>
+                                        <input type="tel" id="phone-input" placeholder="9876543210" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-sm">
+                                    </div>
+                                    <button onclick="sendOTP()" id="send-otp-btn" class="w-full py-3 bg-dark-900 hover:bg-dark-800 text-white font-semibold rounded-xl transition">
+                                        Send Verification Code
+                                    </button>
+                                </div>
+
+                                <div id="step-otp" class="hidden max-w-sm mx-auto text-center">
+                                    <h4 class="text-gray-900 font-semibold mb-1">Enter Code</h4>
+                                    <p id="otp-sent-to" class="text-xs text-gray-500 mb-6"></p>
+                                    <input type="text" id="otp-input" maxlength="6" placeholder="000000" class="w-40 mx-auto block text-center text-2xl tracking-[0.5em] font-mono py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 mb-6">
+                                    <button onclick="verifyOTP()" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition mb-4">Verify & Connect</button>
+                                    <div class="flex justify-center gap-4 text-xs">
+                                        <button onclick="resendOTP()" class="text-brand-600 font-medium hover:underline">Resend</button>
+                                        <button onclick="changePhone()" class="text-gray-500 hover:text-gray-700">Change Number</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="whatsapp-linked" class="hidden">
+                                <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl pulse-glow">📱</div>
+                                        <div class="flex-1">
+                                            <p class="text-green-900 font-bold text-lg">Connected</p>
+                                            <p id="linked-phone" class="text-green-700 font-mono text-sm"></p>
+                                            <p id="linked-at" class="text-green-600 text-xs mt-1"></p>
+                                        </div>
+                                        <button onclick="unlinkWhatsApp()" class="px-4 py-2 bg-white border border-green-200 text-green-700 font-medium rounded-xl hover:bg-green-50 transition text-sm">
+                                            Disconnect
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integrations Tab -->
+                <div id="tab-integrations" class="tab-content max-w-6xl mx-auto">
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Connected Tools</h3>
+                        <p class="text-sm text-gray-500">Active integrations powering your agent</p>
+                    </div>
+                    <div id="connected-tools" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12"></div>
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Available Tools</h3>
+                        <p class="text-sm text-gray-500">Click to connect new capabilities</p>
+                    </div>
+                    <div id="available-tools" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+                </div>
+
+                <!-- Memory Tab -->
+                <div id="tab-memory" class="tab-content max-w-4xl mx-auto space-y-6">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl">📬</span>
+                                <h3 class="font-bold text-gray-900">Email Monitoring</h3>
+                            </div>
+                        </div>
+                        <div id="trigger-section" class="p-6">
+                            <div id="trigger-not-setup" class="text-center py-4">
+                                <p class="text-gray-500 text-sm mb-4">Get notified about important emails via WhatsApp</p>
+                                <button onclick="setupGmailTrigger()" id="setup-trigger-btn" class="px-6 py-2.5 bg-dark-900 hover:bg-dark-800 text-white font-semibold rounded-xl transition">
+                                    Enable Gmail Watcher
+                                </button>
+                            </div>
+                            <div id="trigger-active" class="hidden">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span></span>
+                                    <span class="text-sm font-medium text-gray-700">Listening for emails</span>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl border border-gray-200 p-4">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="text-xs font-bold text-gray-400 uppercase">Queue</span>
+                                        <span id="email-count" class="bg-brand-100 text-brand-700 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+                                    </div>
+                                    <div id="email-queue" class="text-xs text-gray-600 max-h-32 overflow-y-auto mb-3"><p class="text-gray-400 italic">No pending emails</p></div>
+                                    <button onclick="clearEmailQueue()" class="text-xs text-red-500 hover:text-red-700 font-medium">Clear Queue</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl">🧠</span>
+                                <h3 class="font-bold text-gray-900">Long-term Memory</h3>
+                            </div>
+                            <span id="memory-count" class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">0</span>
+                        </div>
+                        <div class="max-h-96 overflow-y-auto p-6 bg-gray-50" id="memories-list"></div>
+                        <div class="p-4 border-t border-gray-100 bg-white">
+                            <button onclick="clearMemories()" class="text-xs text-red-500 hover:text-red-700 font-medium flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Clear All Memory
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none">
+        <div class="bg-dark-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+            <span id="toast-icon">✨</span>
+            <p id="toast-message" class="text-sm font-medium"></p>
+        </div>
+    </div>
+
+
+    <script>
+        let currentUser = null;
+        let pendingPhone = null;
+        let availableToolkits = [];
+
+        document.addEventListener('DOMContentLoaded', () => checkAuth());
+
+        function switchTab(tabName) {
+            const titles = { 'overview': 'Overview', 'channels': 'WhatsApp', 'integrations': 'Integrations', 'memory': 'Memory' };
+            document.getElementById('page-title').textContent = titles[tabName] || 'Dashboard';
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            const nav = document.getElementById('nav-' + tabName);
+            if (nav) nav.classList.add('active');
+        }
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/auth/me');
+                if (res.ok) { currentUser = await res.json(); showDashboard(); }
+                else showAuth();
+            } catch (e) { showAuth(); }
+        }
+
+        function showAuth() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('auth-section').classList.remove('hidden');
+            document.getElementById('dashboard-section').classList.add('hidden');
+        }
+
+        function showDashboard() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('dashboard-section').classList.remove('hidden');
+            if (currentUser) {
+                document.getElementById('user-name-nav').textContent = currentUser.name || 'User';
+                document.getElementById('user-email-nav').textContent = currentUser.email || '';
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-email').textContent = currentUser.email;
+                document.getElementById('user-initials').textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+            }
+            loadLinkingStatus(); loadTools(); loadTriggerStatus(); loadMemories();
+        }
+
+        function logout() { window.location.href = '/auth/logout'; }
+
+        // WhatsApp
+        async function loadLinkingStatus() {
+            try {
+                const badge = document.getElementById('nav-wa-badge');
+                const res = await fetch('/linking/status');
+                const data = await res.json();
+                if (data.linked) {
+                    document.getElementById('whatsapp-not-linked').classList.add('hidden');
+                    document.getElementById('whatsapp-linked').classList.remove('hidden');
+                    document.getElementById('linked-phone').textContent = formatPhone(data.phone_number);
+                    if (data.linked_at) document.getElementById('linked-at').textContent = 'Since ' + new Date(data.linked_at).toLocaleDateString();
+                    if (badge) badge.className = "ml-auto w-2.5 h-2.5 rounded-full bg-green-500";
+                } else {
+                    document.getElementById('whatsapp-not-linked').classList.remove('hidden');
+                    document.getElementById('whatsapp-linked').classList.add('hidden');
+                    showPhoneStep();
+                    if (badge) badge.className = "ml-auto w-2.5 h-2.5 rounded-full bg-gray-300";
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function formatPhone(phone) {
+            if (!phone) return '';
+            return phone.length > 10 ? '+' + phone.slice(0, -10) + ' ' + phone.slice(-10) : phone;
+        }
+
+        function showPhoneStep() { document.getElementById('step-phone').classList.remove('hidden'); document.getElementById('step-otp').classList.add('hidden'); }
+        function showOTPStep() { document.getElementById('step-phone').classList.add('hidden'); document.getElementById('step-otp').classList.remove('hidden'); }
+        function changePhone() { showPhoneStep(); pendingPhone = null; }
+
+        async function sendOTP() {
+            const cc = document.getElementById('country-code').value.trim();
+            const phone = document.getElementById('phone-input').value.trim();
+            if (!phone || phone.length < 10) { showToast('Enter valid phone', true); return; }
+            pendingPhone = cc + phone;
+            const btn = document.getElementById('send-otp-btn');
+            btn.disabled = true; btn.innerText = 'Sending...';
+            try {
+                const res = await fetch('/linking/send-otp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone_number: pendingPhone }) });
+                const data = await res.json();
+                if (res.ok) { document.getElementById('otp-sent-to').textContent = 'Code sent to +' + pendingPhone; showOTPStep(); showToast('OTP sent'); }
+                else showToast(data.detail || 'Error', true);
+            } catch (e) { showToast('Error', true); }
+            finally { btn.disabled = false; btn.innerText = 'Send Verification Code'; }
+        }
+
+        async function resendOTP() { if (!pendingPhone) { showPhoneStep(); return; } await sendOTP(); }
+
+        async function verifyOTP() {
+            const code = document.getElementById('otp-input').value.trim();
+            if (code.length !== 6) { showToast('Enter 6-digit code', true); return; }
+            if (!pendingPhone) { showToast('Restart process', true); showPhoneStep(); return; }
+            try {
+                const res = await fetch('/linking/verify-otp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code, phone_number: pendingPhone }) });
+                if (res.ok) { showToast('Connected! 🎉'); pendingPhone = null; loadLinkingStatus(); }
+                else { const data = await res.json(); showToast(data.detail || 'Invalid code', true); }
+            } catch (e) { showToast('Failed', true); }
+        }
+
+        async function unlinkWhatsApp() {
+            if (!confirm('Disconnect WhatsApp?')) return;
+            try { const res = await fetch('/linking/unlink', { method: 'DELETE' }); if (res.ok) { showToast('Disconnected'); loadLinkingStatus(); } }
+            catch (e) { showToast('Error', true); }
+        }
+
+        // Tools
+        async function loadTools() {
+            try {
+                const availRes = await fetch('/tools/available');
+                const availData = await availRes.json();
+                availableToolkits = availData.toolkits || [];
+                const connRes = await fetch('/tools/connected');
+                const connData = await connRes.json();
+                const connected = connData.tools || [];
+                document.getElementById('overview-tools-count').textContent = connected.length;
+
+                const connDiv = document.getElementById('connected-tools');
+                if (connected.length === 0) {
+                    connDiv.innerHTML = '<div class="col-span-full text-center py-8 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200"><p class="text-gray-400 text-sm">No integrations yet</p></div>';
+                } else {
+                    connDiv.innerHTML = connected.map(t => `
+                        <div class="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-xl border border-gray-100">${getToolIcon(t.toolkit)}</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm capitalize">${t.toolkit}</p>
+                                    <div class="flex items-center gap-1.5 mt-0.5">
+                                        <div class="w-1.5 h-1.5 rounded-full ${t.status === 'active' ? 'bg-green-500' : 'bg-yellow-500'}"></div>
+                                        <p class="text-[10px] text-gray-500 uppercase">${t.status}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="disconnectTool('${t.toolkit}')" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+
+                const connNames = connected.map(t => t.toolkit.toLowerCase());
+                const availDiv = document.getElementById('available-tools');
+                const notConn = availableToolkits.filter(t => !connNames.includes(t.name.toLowerCase()));
+                if (notConn.length === 0) {
+                    availDiv.innerHTML = '<p class="text-gray-400 text-sm col-span-full text-center py-4">All tools connected</p>';
+                } else {
+                    availDiv.innerHTML = notConn.map(t => `
+                        <button onclick="connectTool('${t.name}')" class="group flex flex-col items-center justify-center p-6 bg-white border border-gray-100 hover:border-brand-500 hover:shadow-lg rounded-2xl transition h-32">
+                            ${t.logo ? `<img src="${t.logo}" alt="${t.label}" class="w-8 h-8 mb-3 grayscale group-hover:grayscale-0 transition">` : `<span class="text-2xl mb-3">${t.icon}</span>`}
+                            <p class="text-xs font-semibold text-gray-700 group-hover:text-brand-600">${t.label}</p>
+                        </button>
+                    `).join('');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function getToolIcon(name) { const t = availableToolkits.find(x => x.name.toLowerCase() === name.toLowerCase()); return t ? t.icon : '🔌'; }
+
+        async function connectTool(toolkit) {
+            try {
+                const res = await fetch(`/tools/connect/${toolkit}`, { method: 'POST' });
+                const data = await res.json();
+                if (data.redirect_url) window.location.href = data.redirect_url;
+                else showToast(data.error || 'Failed', true);
+            } catch (e) { showToast('Failed', true); }
+        }
+
+        async function disconnectTool(toolkit) {
+            if (!confirm(`Disconnect ${toolkit}?`)) return;
+            try { await fetch(`/tools/disconnect/${toolkit}`, { method: 'DELETE' }); showToast('Disconnected'); loadTools(); }
+            catch (e) { showToast('Error', true); }
+        }
+
+        // Triggers & Memory
+        async function loadTriggerStatus() {
+            try {
+                const res = await fetch('/tools/triggers/emails');
+                const data = await res.json();
+                if (res.ok && data.count !== undefined) {
+                    document.getElementById('trigger-not-setup').classList.add('hidden');
+                    document.getElementById('trigger-active').classList.remove('hidden');
+                    document.getElementById('email-count').textContent = data.count || 0;
+                    const q = document.getElementById('email-queue');
+                    q.innerHTML = data.count > 0 && data.summary ? `<div class="p-3 bg-white border border-gray-100 rounded-lg text-xs">${data.summary}</div>` : '<p class="text-gray-400 italic text-center">Empty</p>';
+                } else {
+                    document.getElementById('trigger-not-setup').classList.remove('hidden');
+                    document.getElementById('trigger-active').classList.add('hidden');
+                }
+            } catch (e) { document.getElementById('trigger-not-setup').classList.remove('hidden'); document.getElementById('trigger-active').classList.add('hidden'); }
+        }
+
+        async function setupGmailTrigger() {
+            const btn = document.getElementById('setup-trigger-btn');
+            btn.disabled = true; btn.innerText = 'Connecting...';
+            try {
+                const res = await fetch('/tools/triggers/gmail', { method: 'POST' });
+                if (res.ok) { showToast('Email watcher enabled'); loadTriggerStatus(); }
+                else { const data = await res.json(); showToast(data.detail || 'Failed', true); }
+            } catch (e) { showToast('Failed', true); }
+            finally { btn.disabled = false; btn.innerText = 'Enable Gmail Watcher'; }
+        }
+
+        async function clearEmailQueue() {
+            if (!confirm('Clear queue?')) return;
+            try { await fetch('/tools/triggers/emails', { method: 'DELETE' }); showToast('Cleared'); loadTriggerStatus(); }
+            catch (e) { showToast('Error', true); }
+        }
+
+        async function loadMemories() {
+            try {
+                const res = await fetch('/users/me/memories');
+                const data = await res.json();
+                const memories = data.memories || [];
+                document.getElementById('memory-count').textContent = memories.length;
+                document.getElementById('overview-memory-count').textContent = memories.length;
+                const list = document.getElementById('memories-list');
+                if (memories.length === 0) {
+                    list.innerHTML = '<div class="flex flex-col items-center justify-center py-12 text-gray-400"><span class="text-4xl mb-2 opacity-30">🧠</span><p class="text-sm">No memories yet</p></div>';
+                } else {
+                    list.innerHTML = memories.slice(0, 50).map(m => `<div class="mb-2"><div class="bg-white border border-gray-100 rounded-xl p-3 text-sm text-gray-700">${m.memory || m.text || JSON.stringify(m)}</div></div>`).join('');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function clearMemories() {
+            if (!confirm('Delete all memories?')) return;
+            try { await fetch('/users/me/memories', { method: 'DELETE' }); showToast('Memory cleared'); loadMemories(); }
+            catch (e) { showToast('Error', true); }
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            document.getElementById('toast-icon').textContent = isError ? '⚠️' : '✨';
+            toast.querySelector('div').className = `${isError ? 'bg-red-600' : 'bg-dark-900'} text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3`;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none'), 3000);
+        }
+    </script>
+</body>
+</html>
