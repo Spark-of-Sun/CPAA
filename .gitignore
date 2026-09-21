@@ -5,3 +5,5 @@ volumes
 .venv
 .venv2
 google_api_test.py
+oauth_test.sh
+check_redis.py
