@@ -59,7 +59,7 @@ export default function IntegrationsPage() {
     }
     
     setLoading(null)
-    setTimeout(loadData, 200)
+    setTimeout(loadData, 1)
   }
 
   const setupTrigger = async () => {

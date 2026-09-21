@@ -6,6 +6,12 @@ from src.services.user_service import user_service
 from src.routers.auth import get_current_user_dep
 from src.models.user import UserProfile, UserCreateRequest
 
+from pydantic import BaseModel
+ 
+ 
+class AddMemoryRequest(BaseModel):
+    content: str
+    
 router = APIRouter()
 
 
@@ -93,6 +99,8 @@ async def get_whatsapp_user(phone_number: str):
 
 # ============ Memory Endpoints ============
 
+# ============ Memory Endpoints ============
+ 
 @router.get("/me/memories")
 async def get_my_memories(user: dict = Depends(get_current_user_dep)):
     """Get all memories for current user"""
@@ -101,8 +109,8 @@ async def get_my_memories(user: dict = Depends(get_current_user_dep)):
     user_id = user.get("sub")
     memories = await memory_service.get_all_memories(user_id)
     return {"memories": memories, "count": len(memories)}
-
-
+ 
+ 
 @router.get("/me/memories/search")
 async def search_my_memories(
     query: str,
@@ -115,11 +123,11 @@ async def search_my_memories(
     user_id = user.get("sub")
     memories = await memory_service.search_memories(user_id, query, limit)
     return {"query": query, "memories": memories}
-
-
+ 
+ 
 @router.post("/me/memories")
 async def add_memory(
-    content: str,
+    request: AddMemoryRequest,
     user: dict = Depends(get_current_user_dep)
 ):
     """Manually add a memory"""
@@ -128,12 +136,12 @@ async def add_memory(
     user_id = user.get("sub")
     result = await memory_service.store_memory(
         user_id=user_id,
-        content=content,
+        content=request.content,
         metadata={"type": "manual", "source": "dashboard"}
     )
     return {"status": "stored", "result": result}
-
-
+ 
+ 
 @router.delete("/me/memories/{memory_id}")
 async def delete_memory(
     memory_id: str,
@@ -146,8 +154,8 @@ async def delete_memory(
     if not success:
         raise HTTPException(status_code=404, detail="Memory not found")
     return {"status": "deleted"}
-
-
+ 
+ 
 @router.delete("/me/memories")
 async def delete_all_memories(user: dict = Depends(get_current_user_dep)):
     """Delete all memories for current user"""
@@ -156,3 +164,4 @@ async def delete_all_memories(user: dict = Depends(get_current_user_dep)):
     user_id = user.get("sub")
     success = await memory_service.delete_all_memories(user_id)
     return {"status": "deleted" if success else "failed"}
+ 
