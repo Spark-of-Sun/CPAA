@@ -1,0 +1,77 @@
+# free tier PSQL Db https://console.neon.tech/
+DATABASE_URL=
+SECRET_KEY=
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
+AUTH0_DOMAIN=
+AUTH0_REDIRECT_URI=
+
+
+# run webhook on :ngrok http --domain=
+
+WHATSAPP_VERIFY_TOKEN=
+WHATSAPP_ACCESS_TOKEN=
+WHATSAPP_PHONE_NUMBER_ID=
+
+# provider free tier 30MB - https://cloud.redis.io/#/databases
+# Redis Configuration
+REDIS_URL=
+#REDIS_HOST=
+#REDIS_PORT=
+#REDIS_DB=0
+#REDIS_PASSWORD=
+# Cache Settings
+SESSION_CACHE_TTL=300
+
+https://app.mem0.ai/dashboard/api-keys
+MEM0_API_KEY=
+
+# Agent Configuration
+# Session type: "file" (local) or "s3" (AWS S3)
+AGENT_SESSION_TYPE=file
+AGENT_SESSION_DIR=/tmp/agent_sessions
+
+# S3 Session Storage (when AGENT_SESSION_TYPE=s3)
+S3_SESSION_BUCKET=agent-sessions
+S3_SESSION_PREFIX=whatsapp-agent/
+
+# Composio (for multi-platform tools via MCP)
+COMPOSIO_API_KEY=
+
+# create COMPOSIO_MCP_SERVER_ID with /src/services/mcp_setup
+COMPOSIO_MCP_SERVER_ID=
+
+# Composio Auth Config IDs
+# Get these from: https://platform.composio.dev/auth-configs
+# Create an auth config for each toolkit, then paste the ID here
+COMPOSIO_AUTH_GMAIL=
+COMPOSIO_AUTH_GCAL=
+COMPOSIO_AUTH_GDRIVE=
+COMPOSIO_AUTH_ZOOM=
+COMPOSIO_AUTH_GITHUB=
+COMPOSIO_AUTH_SLACK=
+COMPOSIO_AUTH_NOTION=
+COMPOSIO_AUTH_LINEAR=
+COMPOSIO_AUTH_TWITTER=
+COMPOSIO_AUTH_TRELLO=
+COMPOSIO_AUTH_SPOTIFY=
+COMPOSIO_AUTH_DISCORD=
+COMPOSIO_AUTH_JIRA=
+
+
+
+# Google API Configuration (Gemini)
+# Get your API key from Google AI Studio: https://aistudio.google.com/
+GEMINI_API_KEY=
+# or GOOGLE_API_KEY=
+
+# Model Configuration (defaults to Google Gemini)
+# Provider options: "google", "bedrock"
+MODEL_PROVIDER=google
+# Model options: "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash", etc.
+MODEL_ID=gemini-3.5-flash
+
+# AWS (Optional - only needed if using Bedrock or S3 session storage)
+AWS_REGION=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=

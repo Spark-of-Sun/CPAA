@@ -6,26 +6,69 @@ import shutil
 import time
 from typing import Optional, Dict, Any, Tuple
 from strands import Agent
-from strands.models.bedrock import BedrockModel
+from strands.models.gemini import GeminiModel
 from strands.session.file_session_manager import FileSessionManager
 from strands.agent.conversation_manager import SlidingWindowConversationManager
 from strands.tools.mcp import MCPClient
 from mcp.client.streamable_http import streamablehttp_client
 from composio import Composio
+from src.config import settings
 from src.services.redis_client import redis_client
 from strands_tools import current_time, mem0_memory
 
 
-# Model
-DEFAULT_MODEL_ID = "apac.amazon.nova-lite-v1:0"
+# Models & Provider Configuration
+DEFAULT_MODEL_PROVIDER = "google"
+DEFAULT_GEMINI_MODEL_ID = "gemini-3.5-flash"
+DEFAULT_BEDROCK_MODEL_ID = "apac.amazon.nova-lite-v1:0"
 
-try:
-    model_id = os.getenv("MODEL_ID", DEFAULT_MODEL_ID)
-    MODEL = BedrockModel(model_id=model_id)
-    print(f"✅ Model: {model_id}")
-except Exception as e:
-    print(f"⚠️ Model load failed ({e}), using default")
-    MODEL = BedrockModel(model_id=DEFAULT_MODEL_ID)
+
+def _init_model():
+    """Initialize the model based on MODEL_PROVIDER and credentials (defaults to Google Gemini)"""
+    api_key = (
+        os.getenv("GEMINI_API_KEY")
+        or os.getenv("GOOGLE_API_KEY")
+        or getattr(settings, "gemini_api_key", None)
+        or getattr(settings, "google_api_key", None)
+        or None
+    )
+    raw_provider = os.getenv("MODEL_PROVIDER", getattr(settings, "model_provider", DEFAULT_MODEL_PROVIDER)).lower()
+
+    # Prioritize Google Gemini if API key is present or if provider is google/gemini or default
+    if api_key or raw_provider in ("google", "gemini"):
+        provider = "google"
+    elif raw_provider == "bedrock":
+        provider = "bedrock"
+    else:
+        provider = "google"
+
+    if provider == "google":
+        model_id = os.getenv("MODEL_ID", getattr(settings, "model_id", DEFAULT_GEMINI_MODEL_ID))
+        # Safeguard against stale Bedrock or deprecated Gemini model IDs in environment
+        if any(prefix in model_id.lower() for prefix in ["amazon", "nova", "apac.", "bedrock", "gemini-2.5-flash"]):
+            model_id = DEFAULT_GEMINI_MODEL_ID
+
+        client_args = {"api_key": api_key} if api_key else None
+        try:
+            model = GeminiModel(model_id=model_id, client_args=client_args)
+            print(f"✅ Model: {model_id} (Google Gemini)")
+            return model
+        except Exception as e:
+            print(f"⚠️ Google Model load failed ({e}), falling back to {DEFAULT_GEMINI_MODEL_ID}")
+            return GeminiModel(model_id=DEFAULT_GEMINI_MODEL_ID, client_args=client_args)
+    else:
+        from strands.models.bedrock import BedrockModel
+        model_id = os.getenv("MODEL_ID", DEFAULT_BEDROCK_MODEL_ID)
+        try:
+            model = BedrockModel(model_id=model_id)
+            print(f"✅ Model: {model_id} (Bedrock)")
+            return model
+        except Exception as e:
+            print(f"⚠️ Bedrock Model load failed ({e}), using default {DEFAULT_BEDROCK_MODEL_ID}")
+            return BedrockModel(model_id=DEFAULT_BEDROCK_MODEL_ID)
+
+
+MODEL = _init_model()
 
 
 # TTLs
@@ -288,7 +331,7 @@ class AgentManager:
             import traceback; traceback.print_exc()
 
             # Retry once with cleared session on corruption
-            if "ValidationException" in error_msg or "toolUse.name" in error_msg:
+            if any(k in error_msg for k in ["ValidationException", "toolUse.name", "INVALID_ARGUMENT", "ClientError", "400"]):
                 print("🔄 Clearing corrupted session and retrying...")
                 self._clear_user_session(user_id)
                 session_manager = self._get_session_manager(user_id)

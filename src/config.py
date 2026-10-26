@@ -1,6 +1,7 @@
 """Configuration settings"""
 import os
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 from functools import lru_cache
 from typing import Optional
 
@@ -33,8 +34,14 @@ class Settings(BaseSettings):
     
     # Composio
     composio_api_key: str = ""
-    
-    # AWS (for Strands/Bedrock)
+
+    # Google API (Gemini)
+    gemini_api_key: str = ""
+    google_api_key: str = ""
+    model_provider: str = "google"
+    model_id: str = "gemini-3.5-flash"
+
+    # AWS (Optional - for Bedrock or S3 sessions)
     aws_region: str = "ap-south-1"
     aws_access_key_id: str = ""
     aws_secret_access_key: str = ""
@@ -47,6 +54,24 @@ class Settings(BaseSettings):
     
     # Mem0
     mem0_api_key: str = ""
+
+    @field_validator("redis_url", mode="before")
+    @classmethod
+    def sanitize_redis_url(cls, v: str) -> str:
+        if isinstance(v, str):
+            v = v.strip().strip('"').strip("'")
+            if v.startswith("redis-cli -u "):
+                v = v.removeprefix("redis-cli -u ").strip().strip('"').strip("'")
+        return v
+
+    @field_validator("model_id", mode="before")
+    @classmethod
+    def sanitize_model_id(cls, v: str) -> str:
+        if isinstance(v, str):
+            v = v.strip().strip('"').strip("'")
+            if any(prefix in v.lower() for prefix in ["amazon", "nova", "apac.", "bedrock", "gemini-2.5-flash"]):
+                return "gemini-3.5-flash"
+        return v or "gemini-3.5-flash"
     
     model_config = {
         "env_file": ".env",
