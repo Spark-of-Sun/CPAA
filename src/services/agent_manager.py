@@ -252,9 +252,14 @@ class AgentManager:
         session_manager,
         conversation_manager
     ) -> str:
+        
         try:
             mcp_client = self._get_or_create_mcp_client(user_id, mcp_url, mcp_headers)
             tools = self._get_cached_tools(user_id, mcp_client)
+
+            from src.services.tool_router import select_tools, PROMPT_NOTE
+            tools = select_tools(user_id, message, tools)
+            system_prompt = system_prompt + PROMPT_NOTE
 
             agent = Agent(
                 model=MODEL,
@@ -264,6 +269,7 @@ class AgentManager:
                 conversation_manager=conversation_manager,
                 callback_handler=_tool_trace_callback
             )
+            
 
             response = agent(message)
             return self._extract_response(response)

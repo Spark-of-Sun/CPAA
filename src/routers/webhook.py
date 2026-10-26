@@ -213,3 +213,33 @@ async def send_whatsapp_message(to: str, text: str):
         print(f"❌ WhatsApp API error {e.response.status_code}: {e.response.text}")
     except httpx.RequestError as e:
         print(f"❌ WhatsApp network error: {type(e).__name__}: {e}")
+
+
+
+# ===== TEMP EMULATOR HOOK (delete this whole block to remove) =====
+_orig_send_whatsapp_message = send_whatsapp_message
+
+
+async def send_whatsapp_message(to: str, text: str):
+    """If whatsapp_emulator.py is running, deliver there and skip Meta entirely."""
+    if text and text.strip():
+        emu = os.getenv("WHATSAPP_EMULATOR_URL", "http://127.0.0.1:9000")
+        if emu:
+            try:
+                async with httpx.AsyncClient(timeout=2.0) as c:
+                    r = await c.post(
+                        f"{emu}/v18.0/{PHONE_NUMBER_ID}/messages",
+                        json={
+                            "messaging_product": "whatsapp",
+                            "to": to,
+                            "type": "text",
+                            "text": {"body": text},
+                        },
+                    )
+                if r.status_code == 200:
+                    print(f"🧪 Delivered to emulator ({to}) - Meta skipped")
+                    return
+            except httpx.HTTPError:
+                pass  # emulator not running -> normal Meta path below
+    await _orig_send_whatsapp_message(to, text)
+# ===== END TEMP EMULATOR HOOK =====
