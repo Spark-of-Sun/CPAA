@@ -17,17 +17,28 @@ class RedisClient:
         )
         await self.client.ping()
         print("✅ Redis connected")
+
+    async def _ensure_connected(self):
+        if self.client is None:
+            await self.connect()
     
     async def disconnect(self):
         if self.client:
             await self.client.close()
+            self.client = None
     
     async def set(self, key: str, value: Any, ttl: int = None) -> bool:
+        await self._ensure_connected()
+        if not self.client:
+            return False
         if isinstance(value, (dict, list)):
             value = json.dumps(value)
         return await self.client.set(key, value, ex=ttl or settings.session_cache_ttl)
     
     async def get(self, key: str) -> Optional[Any]:
+        await self._ensure_connected()
+        if not self.client:
+            return None
         value = await self.client.get(key)
         if value:
             try:
@@ -37,17 +48,29 @@ class RedisClient:
         return None
     
     async def delete(self, key: str) -> bool:
+        await self._ensure_connected()
+        if not self.client:
+            return False
         return await self.client.delete(key) > 0
     
     async def exists(self, key: str) -> bool:
+        await self._ensure_connected()
+        if not self.client:
+            return False
         return await self.client.exists(key) > 0
     
     async def hset(self, name: str, key: str, value: Any):
+        await self._ensure_connected()
+        if not self.client:
+            return None
         if isinstance(value, (dict, list)):
             value = json.dumps(value)
         return await self.client.hset(name, key, value)
     
     async def hget(self, name: str, key: str) -> Optional[Any]:
+        await self._ensure_connected()
+        if not self.client:
+            return None
         value = await self.client.hget(name, key)
         if value:
             try:
@@ -57,6 +80,9 @@ class RedisClient:
         return None
     
     async def hgetall(self, name: str) -> dict:
+        await self._ensure_connected()
+        if not self.client:
+            return {}
         data = await self.client.hgetall(name)
         result = {}
         for k, v in data.items():
