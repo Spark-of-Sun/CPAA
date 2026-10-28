@@ -1,5 +1,6 @@
 """Mem0 Memory Service for agent long-term memory"""
 import os
+import asyncio
 from typing import Optional, List, Dict
 from mem0 import MemoryClient
 from src.services.redis_client import redis_client
@@ -30,17 +31,23 @@ class MemoryService:
         content: str,
         metadata: Optional[Dict] = None
     ) -> Optional[str]:
-        """Store a memory for a user"""
+        """Store a memory for a user without blocking event loop"""
         if not self.client:
             return None
         
         try:
             messages = [{"role": "user", "content": content}]
-            result = self.client.add(
+            result = await asyncio.to_thread(
+                self.client.add,
                 messages=messages,
                 user_id=user_id,
                 metadata=metadata or {}
             )
+            # Invalidate Redis memory cache for this user
+            try:
+                await redis_client.delete(f"mem0:{user_id}:all")
+            except Exception:
+                pass
             return result
         except Exception as e:
             print(f"Error storing memory: {e}")
@@ -52,12 +59,13 @@ class MemoryService:
         query: str,
         limit: int = 5
     ) -> List[Dict]:
-        """Search memories relevant to a query"""
+        """Search memories relevant to a query without blocking event loop"""
         if not self.client:
             return []
         
         try:
-            results = self.client.search(
+            results = await asyncio.to_thread(
+                self.client.search,
                 query=query,
                 user_id=user_id,
                 limit=limit
@@ -68,24 +76,42 @@ class MemoryService:
             return []
     
     async def get_all_memories(self, user_id: str) -> List[Dict]:
-        """Get all memories for a user"""
+        """Get all memories for a user with Redis caching"""
         if not self.client:
             return []
         
+        cache_key = f"mem0:{user_id}:all"
         try:
-            results = self.client.get_all(user_id=user_id)
-            return results.get("results", []) if isinstance(results, dict) else results
+            cached = await redis_client.get(cache_key)
+            if cached is not None and isinstance(cached, list):
+                return cached
+        except Exception:
+            pass
+        
+        try:
+            results = await asyncio.to_thread(self.client.get_all, user_id=user_id)
+            mem_list = results.get("results", []) if isinstance(results, dict) else results
+            try:
+                await redis_client.set(cache_key, mem_list, ttl=300)
+            except Exception:
+                pass
+            return mem_list
         except Exception as e:
             # Silently fail - memory is optional
             return []
     
-    async def delete_memory(self, memory_id: str) -> bool:
+    async def delete_memory(self, memory_id: str, user_id: Optional[str] = None) -> bool:
         """Delete a specific memory"""
         if not self.client:
             return False
         
         try:
-            self.client.delete(memory_id=memory_id)
+            await asyncio.to_thread(self.client.delete, memory_id=memory_id)
+            if user_id:
+                try:
+                    await redis_client.delete(f"mem0:{user_id}:all")
+                except Exception:
+                    pass
             return True
         except Exception as e:
             print(f"Error deleting memory: {e}")
@@ -97,7 +123,11 @@ class MemoryService:
             return False
         
         try:
-            self.client.delete_all(user_id=user_id)
+            await asyncio.to_thread(self.client.delete_all, user_id=user_id)
+            try:
+                await redis_client.delete(f"mem0:{user_id}:all")
+            except Exception:
+                pass
             return True
         except Exception as e:
             print(f"Error deleting all memories: {e}")

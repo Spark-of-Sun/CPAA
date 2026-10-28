@@ -150,7 +150,8 @@ async def delete_memory(
     """Delete a specific memory"""
     from src.services.memory_service import memory_service
     
-    success = await memory_service.delete_memory(memory_id)
+    user_id = user.get("sub")
+    success = await memory_service.delete_memory(memory_id, user_id=user_id)
     if not success:
         raise HTTPException(status_code=404, detail="Memory not found")
     return {"status": "deleted"}
