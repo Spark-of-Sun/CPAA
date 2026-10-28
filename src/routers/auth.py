@@ -81,7 +81,8 @@ async def callback(request: Request):
                 ttl=86400  # 24 hours
             )
         
-        return RedirectResponse(url="http://localhost:3000")
+        frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+        return RedirectResponse(url=f"{frontend_url}/dashboard")
     
     except Exception as e:
         print("AUTH ERROR:", str(e))
@@ -100,8 +101,8 @@ async def logout(request: Request):
     
     request.session.clear()
     
-    return_to = str(request.url_for("home"))
-    return RedirectResponse(url=get_logout_url(return_to))
+    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+    return RedirectResponse(url=get_logout_url(frontend_url))
 
 
 @router.get("/me")
