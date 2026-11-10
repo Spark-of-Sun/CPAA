@@ -51,19 +51,6 @@ services:
     networks:
       - cpaa-network
 
-  # Cloudflare Tunnel for secure, zero-open-inbound-ports routing
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cpaa-tunnel
-    restart: unless-stopped
-    command: tunnel --no-autoupdate run
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-    networks:
-      - cpaa-network
-    depends_on:
-      - nginx
-
 networks:
   cpaa-network:
     driver: bridge
