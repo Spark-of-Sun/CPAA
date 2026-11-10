@@ -14,10 +14,13 @@ import {
   ExternalLink,
   ChevronRight,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  LogIn,
+  Eye
 } from "lucide-react"
 
 import { api, User, LinkingStatus } from "@/lib/api"
+import { Button } from "@/components/ui/button"
 import {
   Sidebar,
   SidebarContent,
@@ -178,61 +181,83 @@ export function AppSidebar({
 
       {/* User Footer Profile */}
       <SidebarFooter className="border-t border-sidebar-border/60 p-2">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-sidebar-accent hover:bg-sidebar-accent/80 transition-colors rounded-xl px-3"
+        {user?.isGuest ? (
+          <div className="space-y-2 p-1">
+            <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2.5">
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="size-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">
+                  G
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-foreground leading-tight">Guest Mode</p>
+                  <p className="text-[10px] text-muted-foreground">Exploration active</p>
+                </div>
+              </div>
+              <Button asChild size="sm" className="w-full h-7 text-xs bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold">
+                <a href={api.login()} className="flex items-center justify-center gap-1.5">
+                  <LogIn className="size-3" />
+                  <span>Log In / Sign Up</span>
+                </a>
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    size="lg"
+                    className="data-[state=open]:bg-sidebar-accent hover:bg-sidebar-accent/80 transition-colors rounded-xl px-3"
+                  >
+                    <Avatar className="size-8 rounded-lg border border-border/60">
+                      <AvatarImage src={user?.picture} alt={user?.name} />
+                      <AvatarFallback className="rounded-lg bg-primary/10 text-primary font-semibold text-xs">
+                        {user?.name?.charAt(0) || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight ml-1">
+                      <span className="truncate font-semibold text-foreground text-xs">{user?.name || "User"}</span>
+                      <span className="truncate text-[11px] text-muted-foreground">{user?.email}</span>
+                    </div>
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="top"
+                  align="start"
+                  className="w-56 rounded-xl border border-border/80 bg-popover/95 backdrop-blur-md p-1 shadow-xl"
                 >
-                  <Avatar className="size-8 rounded-lg border border-border/60">
-                    <AvatarImage src={user?.picture} alt={user?.name} />
-                    <AvatarFallback className="rounded-lg bg-primary/10 text-primary font-semibold text-xs">
-                      {user?.name?.charAt(0) || "U"}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight ml-1">
-                    <span className="truncate font-semibold text-foreground text-xs">{user?.name || "User"}</span>
-                    <span className="truncate text-[11px] text-muted-foreground">{user?.email}</span>
-                  </div>
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                align="start"
-                className="w-56 rounded-xl border border-border/80 bg-popover/95 backdrop-blur-md p-1 shadow-xl"
-              >
-                <DropdownMenuLabel className="font-normal px-2 py-1.5">
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-xs font-semibold leading-none">{user?.name}</p>
-                    <p className="text-[11px] leading-none text-muted-foreground">{user?.email}</p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-border/60" />
-                <DropdownMenuItem asChild className="rounded-lg text-xs cursor-pointer">
-                  <Link href="/dashboard/whatsapp" className="flex items-center">
-                    <MessageSquare className="mr-2 size-3.5 text-emerald-500" />
-                    WhatsApp Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="rounded-lg text-xs cursor-pointer">
-                  <Link href="/dashboard/integrations" className="flex items-center">
-                    <Plug className="mr-2 size-3.5 text-indigo-400" />
-                    Manage Integrations
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-border/60" />
-                <DropdownMenuItem asChild className="rounded-lg text-xs text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
-                  <a href={api.logout()} className="flex items-center">
-                    <LogOut className="mr-2 size-3.5" />
-                    Sign Out
-                  </a>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
+                  <DropdownMenuLabel className="font-normal px-2 py-1.5">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-xs font-semibold leading-none">{user?.name}</p>
+                      <p className="text-[11px] leading-none text-muted-foreground">{user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-border/60" />
+                  <DropdownMenuItem asChild className="rounded-lg text-xs cursor-pointer">
+                    <Link href="/dashboard/whatsapp" className="flex items-center">
+                      <MessageSquare className="mr-2 size-3.5 text-emerald-500" />
+                      WhatsApp Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-lg text-xs cursor-pointer">
+                    <Link href="/dashboard/integrations" className="flex items-center">
+                      <Plug className="mr-2 size-3.5 text-indigo-400" />
+                      Manage Integrations
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-border/60" />
+                  <DropdownMenuItem asChild className="rounded-lg text-xs text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
+                    <a href={api.logout()} className="flex items-center">
+                      <LogOut className="mr-2 size-3.5" />
+                      Sign Out
+                    </a>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        )}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

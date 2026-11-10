@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo } from "react"
 import Link from "next/link"
 import { api, Memory } from "@/lib/api"
+import { useGuest } from "@/contexts/guest-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -37,6 +38,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 export default function MemoryPage() {
+  const { isGuest, requireAuth } = useGuest()
   const [allMemories, setAllMemories] = useState<Memory[]>([])
   const [search, setSearch] = useState("")
   const [newMemory, setNewMemory] = useState("")
@@ -92,6 +94,14 @@ export default function MemoryPage() {
 
   // Deep Semantic Search (on demand or on Enter)
   const handleSemanticSearch = async () => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In to Search Vectors",
+        action: "run semantic neural searches across agent memories",
+      })
+      return
+    }
+
     const query = search.trim()
     if (!query) {
       setSemanticExtraResults([])
@@ -116,6 +126,14 @@ export default function MemoryPage() {
 
   // Instant Optimistic Add (0ms UI latency)
   const handleAddMemory = async (contentToAdd?: string) => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In to Store Memories",
+        action: "save persistent execution rules and memory vectors",
+      })
+      return
+    }
+
     const text = (contentToAdd || newMemory).trim()
     if (!text) return
 
@@ -161,6 +179,14 @@ export default function MemoryPage() {
 
   // Instant Optimistic Delete (0ms UI latency)
   const handleDeleteMemory = async (id: string) => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In Required",
+        action: "manage or delete agent memory entries",
+      })
+      return
+    }
+
     const itemToDelete = allMemories.find((m) => m.id === id)
     setAllMemories((prev) => prev.filter((m) => m.id !== id))
     toast.success("Memory removed")
@@ -181,6 +207,14 @@ export default function MemoryPage() {
 
   // Clear all memories
   const handleClearAll = async () => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In Required",
+        action: "clear memory vectors",
+      })
+      return
+    }
+
     const backup = [...allMemories]
     setAllMemories([])
     toast.success("All memories cleared")

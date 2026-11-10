@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { api, LinkingStatus, Tool } from "@/lib/api"
+import { useGuest } from "@/contexts/guest-context"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
@@ -25,6 +26,7 @@ import {
 import { RealisticPhoneSimulator } from "@/components/realistic-phone-simulator"
 
 export default function DashboardPage() {
+  const { isGuest, requireAuth } = useGuest()
   const [linking, setLinking] = useState<LinkingStatus | null>(null)
   const [tools, setTools] = useState<Tool[]>([])
   const [memoryCount, setMemoryCount] = useState(0)
@@ -87,7 +89,16 @@ export default function DashboardPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={loadData}
+            onClick={() => {
+              if (isGuest) {
+                requireAuth(undefined, {
+                  title: "Sign In to Sync Status",
+                  action: "sync live agent status and triggers",
+                })
+                return
+              }
+              loadData()
+            }}
             disabled={refreshing}
             className="h-9 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
           >
