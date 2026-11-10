@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     auth0_client_secret: str = ""
     auth0_domain: str = ""
     auth0_redirect_uri: str = ""
+    auth0_redirect_url: str = ""
     
     # WhatsApp
     whatsapp_verify_token: str = ""

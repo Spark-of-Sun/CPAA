@@ -49,7 +49,8 @@ import {
   Scale,
   DollarSign,
   Play,
-  Pause
+  Pause,
+  Eye
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -197,6 +198,20 @@ export default function HomePage() {
               </a>
             )}
           </Button>
+
+          {!user && (
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-12 px-6 text-base rounded-xl border-amber-500/40 hover:bg-amber-500/10 backdrop-blur-md text-amber-300 font-semibold"
+            >
+              <Link href="/dashboard" className="flex items-center gap-2">
+                <Eye className="size-4 text-amber-400" />
+                <span>Explore as Guest</span>
+              </Link>
+            </Button>
+          )}
 
           <Button
             variant="outline"

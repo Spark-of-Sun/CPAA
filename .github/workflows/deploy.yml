@@ -1,0 +1,62 @@
+name: Deploy CPAA to Azure VM
+
+on:
+  push:
+    branches:
+      - deployment
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Azure VM via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy on Azure VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AZURE_VM_USER }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+          port: ${{ secrets.AZURE_SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            echo "🚀 Starting automated deployment on Azure VM..."
+            # Auto-detect project location
+            PROJECT_DIR="/opt/cpaa"
+            if [ ! -d "$PROJECT_DIR" ]; then
+              PROJECT_DIR="$HOME/CPAA"
+            fi
+            if [ ! -d "$PROJECT_DIR" ]; then
+              PROJECT_DIR="$(pwd)"
+            fi
+            
+            echo "📁 Deploying in: $PROJECT_DIR"
+            cd "$PROJECT_DIR"
+            
+            # Fetch and update code
+            git fetch origin deployment
+            git checkout deployment
+            git pull origin deployment
+            
+            # Run deployment script
+            chmod +x deploy.sh
+            ./deploy.sh
+
+      - name: Verify Public Health Endpoint
+        run: |
+          echo "Verifying public deployment health at https://cpaa.ganpatikrsah.site/api/health..."
+          sleep 10
+          for i in {1..6}; do
+            RESPONSE=$(curl -s -f https://cpaa.ganpatikrsah.site/api/health || true)
+            if echo "$RESPONSE" | grep -q '"status":"healthy"'; then
+              echo "✅ Public health check passed!"
+              exit 0
+            fi
+            echo "⏳ Waiting for services to respond ($i/6)..."
+            sleep 5
+          done
+          echo "⚠️ Public health check took longer than expected, please check container logs."

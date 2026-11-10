@@ -15,6 +15,8 @@ COPY . .
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# Guard against OOM crash on low-spec Azure VMs during Next.js build
+ENV NODE_OPTIONS="--max-old-space-size=1536"
 
 RUN npm run build
 

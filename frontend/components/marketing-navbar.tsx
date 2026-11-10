@@ -30,7 +30,8 @@ import {
   Zap,
   Lock,
   Mail,
-  ExternalLink
+  ExternalLink,
+  Eye
 } from 'lucide-react';
 
 export function MarketingNavbar() {
@@ -223,6 +224,12 @@ export function MarketingNavbar() {
             </Button>
           ) : (
             <>
+              <Button asChild variant="outline" size="sm" className="border-border/70 hover:bg-muted/50 text-xs font-medium">
+                <Link href="/dashboard" className="flex items-center gap-1.5">
+                  <Eye className="size-3.5 text-amber-400" />
+                  <span>Explore as Guest</span>
+                </Link>
+              </Button>
               <Button asChild variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground text-xs">
                 <a href={api.login()}>Sign In</a>
               </Button>
@@ -271,11 +278,19 @@ export function MarketingNavbar() {
               <ExternalLink className="size-3 opacity-70" />
             </a>
           </div>
-          <div className="pt-2 border-t border-border flex items-center justify-between">
-            <a href={api.login()} className="text-xs font-semibold text-primary">Sign in with Auth0</a>
-            <Button asChild size="sm" className="bg-primary text-primary-foreground text-xs">
-              <a href={api.login()}>Get Started</a>
+          <div className="pt-2 border-t border-border flex items-center justify-between gap-2">
+            <Button asChild variant="outline" size="sm" className="text-xs">
+              <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5">
+                <Eye className="size-3 text-amber-400" />
+                <span>Guest Mode</span>
+              </Link>
             </Button>
+            <div className="flex items-center gap-2">
+              <a href={api.login()} className="text-xs font-semibold text-primary">Sign in</a>
+              <Button asChild size="sm" className="bg-primary text-primary-foreground text-xs">
+                <a href={api.login()}>Get Started</a>
+              </Button>
+            </div>
           </div>
         </div>
       )}

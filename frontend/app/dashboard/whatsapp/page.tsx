@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { api, LinkingStatus } from "@/lib/api"
+import { useGuest } from "@/contexts/guest-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -103,6 +104,7 @@ const COUNTRIES: Country[] = [
 ]
 
 export default function WhatsAppPage() {
+  const { isGuest, requireAuth } = useGuest()
   const [status, setStatus] = useState<LinkingStatus | null>(null)
   const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES[0])
   const [localPhone, setLocalPhone] = useState("")
@@ -151,6 +153,14 @@ export default function WhatsAppPage() {
   }
 
   const sendOTP = async () => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In to Link WhatsApp",
+        action: "send an OTP and link your WhatsApp number",
+      })
+      return
+    }
+
     const cleanPhone = computeFullPhone()
     if (!cleanPhone || cleanPhone.length < 8) {
       toast.error("Please enter a valid phone number")
@@ -179,6 +189,14 @@ export default function WhatsAppPage() {
   }
 
   const verifyOTP = async () => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In to Verify WhatsApp",
+        action: "verify your phone number and connect your agent",
+      })
+      return
+    }
+
     if (otp.length !== 6) {
       toast.error("Please enter the complete 6-digit code")
       return
@@ -208,6 +226,14 @@ export default function WhatsAppPage() {
   }
 
   const unlink = async () => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In Required",
+        action: "manage WhatsApp account settings",
+      })
+      return
+    }
+
     setLoading(true)
     try {
       const res = await api.unlinkWhatsApp()

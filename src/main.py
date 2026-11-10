@@ -49,12 +49,16 @@ app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv("SECRET_KEY", "change-me-in-production"),
     max_age=86400,  # 24 hours
+    same_site="lax",
+    https_only=os.getenv("FRONTEND_URL", "").startswith("https"),
 )
 
 # CORS
 cors_origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
     "https://cpaa.ganpatikrsah.site",
     "https://ganpatikrsah.site",
 ]

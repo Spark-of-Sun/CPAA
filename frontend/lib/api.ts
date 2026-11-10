@@ -52,7 +52,7 @@ export const api = {
   clearSessions: () => fetchAPI('/tools/clear-sessions', { method: 'POST' }),
 };
 
-export type User = { user_id: string; email: string; name: string; picture?: string };
+export type User = { user_id: string; email: string; name: string; picture?: string; isGuest?: boolean };
 export type LinkingStatus = { linked: boolean; phone_number?: string; linked_at?: string };
 export type Tool = { toolkit: string; status: string };
 export type AvailableTool = { name: string; label: string; icon: string; logo?: string };

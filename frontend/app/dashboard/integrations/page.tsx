@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { api, AvailableTool, Tool } from "@/lib/api"
+import { useGuest } from "@/contexts/guest-context"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
@@ -140,6 +141,7 @@ const UPCOMING_TOOLS: UpcomingTool[] = [
 ]
 
 export default function IntegrationsPage() {
+  const { isGuest, requireAuth } = useGuest()
   const [available, setAvailable] = useState<AvailableTool[]>([])
   const [connected, setConnected] = useState<Tool[]>([])
   const [triggerStatus, setTriggerStatus] = useState(false)
@@ -183,6 +185,14 @@ export default function IntegrationsPage() {
     connected.some((t) => t.toolkit.toLowerCase() === toolkit.toLowerCase())
 
   const toggleConnection = async (toolkit: string) => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In to Connect Tools",
+        action: `connect and authorize ${toolkit} via OAuth`,
+      })
+      return
+    }
+
     setLoading(toolkit)
     const currentlyConnected = isConnected(toolkit)
 
@@ -220,6 +230,14 @@ export default function IntegrationsPage() {
   }
 
   const setupTrigger = async () => {
+    if (isGuest) {
+      requireAuth(undefined, {
+        title: "Sign In to Activate Triggers",
+        action: "set up real-time Gmail event listeners",
+      })
+      return
+    }
+
     setLoading("trigger")
     try {
       const res = await api.setupGmailTrigger()
