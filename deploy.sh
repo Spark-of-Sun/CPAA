@@ -83,13 +83,7 @@ if curl -s -I http://localhost/ | grep -q 'HTTP/1.1 200 OK'; then
     echo "✅ Gateway & Frontend are responding!"
 fi
 
-# 8. Check Cloudflare Tunnel
-if grep -q "CLOUDFLARE_TUNNEL_TOKEN=" .env && ! grep -q "CLOUDFLARE_TUNNEL_TOKEN=$" .env && ! grep -q "CLOUDFLARE_TUNNEL_TOKEN=\"\"" .env; then
-    echo "☁️ Cloudflare Tunnel container is active."
-else
-    echo "💡 Note: Set CLOUDFLARE_TUNNEL_TOKEN in .env to connect your Cloudflare Zero Trust Tunnel."
-fi
-
+# 8. Deployment summary
 echo "=========================================================="
 echo "✅ CPAA successfully deployed!"
 echo "🌐 Public domain: https://cpaa.ganpatikrsah.site"
