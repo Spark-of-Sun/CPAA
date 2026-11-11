@@ -15,7 +15,7 @@ export default function PricingPage() {
   const tiers = [
     {
       name: "Starter",
-      description: "Ideal for students and individuals getting started with WhatsApp AI.",
+      description: "Ideal for individuals and professionals getting started with WhatsApp AI.",
       price: "$0",
       cadence: "free forever",
       badge: null,

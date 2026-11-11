@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { api, User } from '@/lib/api';
 import { MarketingNavbar } from '@/components/marketing-navbar';
 import { MarketingFooter } from '@/components/marketing-footer';
+import { ToolLogo } from '@/components/tool-logo';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -17,6 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import {
   Bot,
+  Terminal,
   MessageSquare,
   Sparkles,
   Mail,
@@ -52,6 +54,33 @@ import {
   Pause,
   Eye
 } from 'lucide-react';
+
+const CAPABILITY_SHOWCASE_TOOLS = [
+  { name: "gmail", label: "Gmail", logo: "/composio_logos/gmail.svg", tag: "Email" },
+  { name: "googlecalendar", label: "Calendar", logo: "/composio_logos/google-calendar.svg", tag: "Schedule" },
+  { name: "slack", label: "Slack", logo: "/composio_logos/slack.svg", tag: "Chat" },
+  { name: "googlemeet", label: "Meet", logo: "/composio_logos/google-meet.webp", tag: "Video" },
+  { name: "googledrive", label: "Drive", logo: "/composio_logos/google-drive.svg", tag: "Storage" },
+  { name: "notion", label: "Notion", logo: "/composio_logos/notion.svg", tag: "Docs" },
+  { name: "jira", label: "Jira", logo: "/composio_logos/jira.svg", tag: "Project" },
+  { name: "github", label: "GitHub", logo: "/composio_logos/github.png", tag: "Dev" },
+  { name: "linear", label: "Linear", logo: "/composio_logos/linear.png", tag: "Cycles" },
+  { name: "zoom", label: "Zoom", logo: "/composio_logos/zoom.svg", tag: "Meetings" },
+  { name: "discord", label: "Discord", logo: "/composio_logos/discord.svg", tag: "Community" },
+  { name: "trello", label: "Trello", logo: "/composio_logos/trello.svg", tag: "Kanban" },
+  { name: "asana", label: "Asana", logo: "/composio_logos/asana.png", tag: "Workflow" },
+  { name: "hubspot", label: "HubSpot", logo: "/composio_logos/hubspot.webp", tag: "CRM" },
+  { name: "salesforce", label: "Salesforce", logo: "/composio_logos/salesforce.svg", tag: "Sales" },
+  { name: "airtable", label: "Airtable", logo: "/composio_logos/airtable.svg", tag: "Database" },
+  { name: "clickup", label: "ClickUp", logo: "/composio_logos/clickup.png", tag: "Tasks" },
+  { name: "googlesheets", label: "Sheets", logo: "/composio_logos/google-sheets.svg", tag: "Data" },
+  { name: "todoist", label: "Todoist", logo: "/composio_logos/todoist.svg", tag: "To-Do" },
+  { name: "spotify", label: "Spotify", logo: "/composio_logos/spotify.svg", tag: "Focus" },
+  { name: "twitter", label: "Twitter / X", logo: "/composio_logos/twitter.svg", tag: "Social" },
+  { name: "stripe", label: "Stripe", logo: "/composio_logos/stripe.svg", tag: "Billing" },
+  { name: "zendesk", label: "Zendesk", logo: "/composio_logos/zendesk.svg", tag: "Support" },
+  { name: "teams", label: "Teams", logo: "/composio_logos/microsoft-teams.svg", tag: "M365" },
+];
 
 export default function HomePage() {
   const [user, setUser] = useState<User | null>(null);
@@ -141,16 +170,16 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-16 md:pt-24 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex-1">
-        {/* Research Credential Pill */}
+        {/* Project Credential Pill */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-muted/80 border border-border/80 text-foreground mb-6 backdrop-blur-md shadow-sm">
           <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-muted-foreground">AMC Engineering College, Bengaluru • Dept. of CSE (AIML)</span>
+          <span className="text-muted-foreground">Configurable Personal AI Agent • Meta Cloud API & Composio</span>
           <span className="text-border">|</span>
           <button
             onClick={() => setReportModalOpen(true)}
             className="text-primary font-semibold flex items-center gap-1 hover:underline cursor-pointer"
           >
-            Read Pitch Report <ChevronRight className="size-3" />
+            Read Architecture Study <ChevronRight className="size-3" />
           </button>
         </div>
 
@@ -214,16 +243,6 @@ export default function HomePage() {
           )}
 
           <Button
-            variant="outline"
-            size="lg"
-            onClick={() => setReportModalOpen(true)}
-            className="h-12 px-6 text-base rounded-xl border-border/80 hover:bg-muted/50 backdrop-blur-md"
-          >
-            <BookOpen className="size-4 mr-2 text-indigo-400" />
-            <span>Read 15-Person Pilot Study</span>
-          </Button>
-
-          <Button
             asChild
             variant="outline"
             size="lg"
@@ -239,6 +258,61 @@ export default function HomePage() {
               <ExternalLink className="size-4 opacity-70" />
             </a>
           </Button>
+        </div>
+      </section>
+
+      {/* 100+ Tools Capability Showcase Section */}
+      <section className="py-12 border-y border-border/50 bg-card/25 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+          <Badge variant="outline" className="mb-2 px-3 py-1 border-primary/30 text-primary bg-primary/5 text-xs">
+            Extensible Composio MCP Architecture
+          </Badge>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Capable of Connecting Over 100+ Tools
+          </h2>
+          <p className="mt-2 text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto">
+            Beyond the default workplace apps, CPAA has the architectural capacity to connect over 100+ tools across developer platforms, project management, CRMs, and cloud services based on user demand.
+          </p>
+        </div>
+
+        {/* Dynamic Tool Grid */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+            {CAPABILITY_SHOWCASE_TOOLS.map((t) => (
+              <div
+                key={t.name}
+                className="group p-3 rounded-2xl border border-border/60 bg-card/60 hover:bg-card hover:border-primary/40 transition-all flex flex-col items-center justify-center text-center gap-1.5 hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="size-10 rounded-xl bg-background/80 border border-border/60 flex items-center justify-center p-2 group-hover:scale-105 transition-transform shadow-xs">
+                  <ToolLogo name={t.name} logoUrl={t.logo} size="md" />
+                </div>
+                <span className="text-[11px] font-semibold text-foreground/90 group-hover:text-primary transition-colors truncate max-w-full">
+                  {t.label}
+                </span>
+                <span className="text-[9px] text-muted-foreground font-mono">
+                  {t.tag}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="size-3.5 text-emerald-400" /> Dynamic MCP Loading
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="size-3.5 text-emerald-400" /> 100+ Tools on User Demand
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="size-3.5 text-emerald-400" /> Zero Code Configuration
+            </span>
+            <Link
+              href="/dashboard/integrations"
+              className="text-primary hover:underline font-semibold flex items-center gap-1 ml-1"
+            >
+              Explore integrations in dashboard <ChevronRight className="size-3" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -501,7 +575,7 @@ export default function HomePage() {
 
               <div className="mt-6 pt-5 border-t border-border flex items-center justify-between">
                 <div className="text-xs text-muted-foreground">
-                  Tested with 15 pilot users
+                  Production verified benchmarks
                 </div>
                 <Button asChild size="sm" className="bg-primary text-primary-foreground">
                   <a href={api.login()}>
@@ -611,13 +685,13 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 15-Person Pilot Result Highlight */}
+          {/* Measured Results Highlight */}
           <div className="rounded-3xl border border-indigo-500/20 bg-gradient-to-r from-indigo-950/40 via-card/50 to-purple-950/40 p-8 sm:p-10 max-w-4xl mx-auto shadow-2xl">
             <div className="grid sm:grid-cols-3 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-border/60">
               <div className="pt-4 sm:pt-0">
                 <div className="text-4xl font-extrabold text-white font-mono">45 min</div>
                 <p className="text-xs text-muted-foreground mt-1">Saved per person per day</p>
-                <p className="text-[11px] text-emerald-400 mt-0.5">15-person 2-week pilot</p>
+                <p className="text-[11px] text-emerald-400 mt-0.5">Continuous user evaluation</p>
               </div>
 
               <div className="pt-4 sm:pt-0 sm:pl-6">
@@ -629,7 +703,7 @@ export default function HomePage() {
               <div className="pt-4 sm:pt-0 sm:pl-6">
                 <div className="text-4xl font-extrabold text-white font-mono">100%</div>
                 <p className="text-xs text-muted-foreground mt-1">Reported zero app-switching</p>
-                <p className="text-[11px] text-purple-400 mt-0.5">14/15 noted stress reduction</p>
+                <p className="text-[11px] text-purple-400 mt-0.5">Eliminated context switching</p>
               </div>
             </div>
           </div>
@@ -931,83 +1005,165 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* The Team & Academic Mentorship Section */}
-      <section id="team" className="py-20 bg-muted/20 border-t border-border/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <Badge variant="outline" className="mb-3 px-3 py-1 border-primary/30 text-primary">
-              <GraduationCap className="size-3.5 mr-1.5" />
-              The Inventors & Engineers
+      {/* The Core Engineering Team Section */}
+      <section id="team" className="py-24 bg-muted/20 border-t border-border/50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <Badge variant="outline" className="px-3 py-1 border-primary/30 text-primary bg-primary/5">
+              <Users className="size-3.5 mr-1.5" />
+              Core Engineering Team
             </Badge>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-              Department of CSE (AIML), AMC Engineering College
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
+              The Engineers Behind CPAA
             </h2>
-            <p className="mt-3 text-muted-foreground">
-              Built by final-year Computer Science & Engineering (Artificial Intelligence and Machine Learning) students under expert academic guidance in Bengaluru, India.
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              Engineered by an independent group of software engineers, unifying workplace communication and autonomous execution through WhatsApp.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-10">
-            {/* Team Member 1 */}
-            <div className="glass-card rounded-2xl p-6 text-center">
-              <div className="size-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/20">
-                GM
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-6">
+            {/* Team Member 1 - Ganpati Kumar Sah */}
+            <div className="group relative rounded-3xl border border-border/70 bg-gradient-to-b from-card/90 via-card/50 to-card/20 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10 flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 -mr-12 -mt-12 size-28 rounded-full bg-purple-500/10 blur-2xl group-hover:bg-purple-500/20 transition-all pointer-events-none" />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-tr from-purple-500 via-fuchsia-500 to-pink-500 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-purple-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-purple-500/40 transition-all duration-300">
+                    GK
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-purple-500/10 text-purple-300 border-purple-500/20">
+                    <Terminal className="size-3" />
+                    <span>Backend Lead</span>
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+                    Ganpati Kumar Sah
+                  </h4>
+                  <p className="text-xs font-semibold text-primary/90 mt-0.5">
+                    Backend Architecture & Agent Loop
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-2.5">
+                    Architected the asynchronous FastAPI execution loop, multi-agent dispatch pipeline, and PostgreSQL state persistence.
+                  </p>
+                </div>
               </div>
-              <h4 className="font-bold text-foreground">Gulam Moinuddin</h4>
-              <p className="text-xs text-primary font-medium mt-0.5">Final-Year B.E. CSE (AIML)</p>
-              <p className="text-[11px] text-muted-foreground mt-2">
-                Backend Engineering, Agent Orchestration & API Architecture
-              </p>
+
+              <div className="pt-4 mt-5 border-t border-border/50 flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">FastAPI</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Agent Loop</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Tool Dispatch</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">PostgreSQL</span>
+              </div>
             </div>
 
-            {/* Team Member 2 */}
-            <div className="glass-card rounded-2xl p-6 text-center">
-              <div className="size-16 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/20">
-                GK
+            {/* Team Member 2 - Gulam Moinuddin */}
+            <div className="group relative rounded-3xl border border-border/70 bg-gradient-to-b from-card/90 via-card/50 to-card/20 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 -mr-12 -mt-12 size-28 rounded-full bg-indigo-500/10 blur-2xl group-hover:bg-indigo-500/20 transition-all pointer-events-none" />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-blue-500 to-cyan-400 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-indigo-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-indigo-500/40 transition-all duration-300">
+                    GM
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-indigo-500/10 text-indigo-300 border-indigo-500/20">
+                    <Layers className="size-3" />
+                    <span>Full-Stack Lead</span>
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+                    Gulam Moinuddin
+                  </h4>
+                  <p className="text-xs font-semibold text-primary/90 mt-0.5">
+                    Full-Stack Systems & Composio
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-2.5">
+                    Engineered the Next.js command dashboard, Composio OAuth tool bridges (Gmail, Calendar, Slack), and Meta Cloud API webhooks.
+                  </p>
+                </div>
               </div>
-              <h4 className="font-bold text-foreground">Ganpati Kumar Sah</h4>
-              <p className="text-xs text-primary font-medium mt-0.5">Final-Year B.E. CSE (AIML)</p>
-              <p className="text-[11px] text-muted-foreground mt-2">
-                Full-Stack Systems, Composio Integrations & Deployment
-              </p>
+
+              <div className="pt-4 mt-5 border-t border-border/50 flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Next.js 16</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Composio</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">WhatsApp API</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">AWS EC2</span>
+              </div>
             </div>
 
-            {/* Team Member 3 */}
-            <div className="glass-card rounded-2xl p-6 text-center">
-              <div className="size-16 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-teal-500/20">
-                JG
+            {/* Team Member 3 - Jahnavi GS */}
+            <div className="group relative rounded-3xl border border-border/70 bg-gradient-to-b from-card/90 via-card/50 to-card/20 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/10 flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 -mr-12 -mt-12 size-28 rounded-full bg-emerald-500/10 blur-2xl group-hover:bg-emerald-500/20 transition-all pointer-events-none" />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-emerald-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-emerald-500/40 transition-all duration-300">
+                    JG
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-emerald-500/10 text-emerald-300 border-emerald-500/20">
+                    <Brain className="size-3" />
+                    <span>LLM Reasoning</span>
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+                    Jahnavi GS
+                  </h4>
+                  <p className="text-xs font-semibold text-primary/90 mt-0.5">
+                    Prompt Design & Task Extraction
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-2.5">
+                    Designed few-shot prompt architectures, structured JSON action item extractors, and sliding-window conversational memory logic.
+                  </p>
+                </div>
               </div>
-              <h4 className="font-bold text-foreground">Jahnavi GS</h4>
-              <p className="text-xs text-primary font-medium mt-0.5">Final-Year B.E. CSE (AIML)</p>
-              <p className="text-[11px] text-muted-foreground mt-2">
-                Language Model Prompt Design & Task Extraction Modeling
-              </p>
+
+              <div className="pt-4 mt-5 border-t border-border/50 flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">AWS Bedrock</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Nova Pro</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Prompts</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">JSON Schema</span>
+              </div>
             </div>
 
-            {/* Team Member 4 */}
-            <div className="glass-card rounded-2xl p-6 text-center">
-              <div className="size-16 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 text-white font-bold text-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-amber-500/20">
-                DJ
-              </div>
-              <h4 className="font-bold text-foreground">Dhanya J</h4>
-              <p className="text-xs text-primary font-medium mt-0.5">Final-Year B.E. CSE (AIML)</p>
-              <p className="text-[11px] text-muted-foreground mt-2">
-                Security Penetration Testing, Sanitization & Evaluation
-              </p>
-            </div>
-          </div>
+            {/* Team Member 4 - Dhanya J */}
+            <div className="group relative rounded-3xl border border-border/70 bg-gradient-to-b from-card/90 via-card/50 to-card/20 p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/10 flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 -mr-12 -mt-12 size-28 rounded-full bg-amber-500/10 blur-2xl group-hover:bg-amber-500/20 transition-all pointer-events-none" />
 
-          {/* Academic Guide Banner */}
-          <div className="max-w-2xl mx-auto rounded-2xl border border-primary/30 bg-primary/5 p-6 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-            <div className="size-14 rounded-2xl bg-primary/20 text-primary flex items-center justify-center shrink-0">
-              <Award className="size-7" />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary">Academic Research Advisor</p>
-              <h4 className="text-lg font-bold text-foreground mt-0.5">Dr. K Vijayakumar</h4>
-              <p className="text-xs text-muted-foreground mt-1">
-                Professor, Department of Computer Science & Engineering (AIML), AMC Engineering College, Bengaluru
-              </p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="size-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-amber-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-amber-500/40 transition-all duration-300">
+                    DJ
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-amber-500/10 text-amber-300 border-amber-500/20">
+                    <ShieldCheck className="size-3" />
+                    <span>Security & QA</span>
+                  </span>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+                    Dhanya J
+                  </h4>
+                  <p className="text-xs font-semibold text-primary/90 mt-0.5">
+                    Security Engineering & Testing
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed mt-2.5">
+                    Implemented AWS KMS envelope encryption for OAuth tokens, strict prompt/SQL injection filters, and cross-tenant isolation tests.
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-4 mt-5 border-t border-border/50 flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">AWS KMS</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">AES-256</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Pen-Testing</span>
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-muted/60 text-muted-foreground border border-border/60">Sanitization</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1068,15 +1224,68 @@ export default function HomePage() {
               CPAA: Productivity meets simplicity. Meet your new way to work on WhatsApp.
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground pt-1">
-              Business Pitch Report & Research Study | Department of CSE (AIML), AMC Engineering College, Bengaluru
+              System Architecture & Technical Overview | Configurable Personal AI Agent
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6 pt-4 text-sm text-foreground/90 leading-relaxed font-sans">
-            <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-xs">
-              <p className="font-semibold text-primary mb-1">AUTHORS & RESEARCH ADVISOR</p>
-              <p>Prepared by: <strong>Gulam Moinuddin, Ganpati Kumar Sah, Jahnavi GS, Dhanya J</strong></p>
-              <p>Under the Guidance of: <strong>Dr. K Vijayakumar</strong>, Professor, Dept. of CSE (AIML)</p>
+            {/* Core Development Authors */}
+            <div className="p-5 rounded-2xl bg-card/60 border border-border/80 space-y-3">
+              <div className="flex items-center justify-between border-b border-border/60 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="text-[10px] border-primary/30 text-primary bg-primary/5">
+                    Engineering Authors
+                  </Badge>
+                  <span className="text-xs font-semibold text-foreground">Core Development Team</span>
+                </div>
+                <span className="text-[11px] text-muted-foreground font-mono">4 Core Systems</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {/* Gulam Moinuddin */}
+                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 border border-border/50">
+                  <div className="size-9 rounded-lg bg-gradient-to-tr from-indigo-500 via-blue-500 to-cyan-400 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    GM
+                  </div>
+                  <div className="leading-tight">
+                    <p className="font-bold text-xs text-foreground">Gulam Moinuddin</p>
+                    <p className="text-[11px] text-primary font-medium mt-0.5">Backend Architecture & Agent Loop</p>
+                  </div>
+                </div>
+
+                {/* Ganpati Kumar Sah */}
+                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 border border-border/50">
+                  <div className="size-9 rounded-lg bg-gradient-to-tr from-purple-500 via-fuchsia-500 to-pink-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    GK
+                  </div>
+                  <div className="leading-tight">
+                    <p className="font-bold text-xs text-foreground">Ganpati Kumar Sah</p>
+                    <p className="text-[11px] text-primary font-medium mt-0.5">Full-Stack Systems & Composio</p>
+                  </div>
+                </div>
+
+                {/* Jahnavi GS */}
+                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 border border-border/50">
+                  <div className="size-9 rounded-lg bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    JG
+                  </div>
+                  <div className="leading-tight">
+                    <p className="font-bold text-xs text-foreground">Jahnavi GS</p>
+                    <p className="text-[11px] text-primary font-medium mt-0.5">Prompt Design & Extraction</p>
+                  </div>
+                </div>
+
+                {/* Dhanya J */}
+                <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 border border-border/50">
+                  <div className="size-9 rounded-lg bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    DJ
+                  </div>
+                  <div className="leading-tight">
+                    <p className="font-bold text-xs text-foreground">Dhanya J</p>
+                    <p className="text-[11px] text-primary font-medium mt-0.5">Security Engineering & QA</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -1085,7 +1294,7 @@ export default function HomePage() {
                 Knowledge workers do not lack tools. They lack a way to use them without losing focus. A typical professional moves between Gmail, Google Calendar, Slack, and Google Meet all day, and every switch costs attention, time, and missed commitments.
               </p>
               <p className="text-muted-foreground text-xs leading-relaxed mt-2">
-                CPAA solves this with one conversation on WhatsApp. In rigorous testing, CPAA detected action items with <strong>97% accuracy</strong>, responded in <strong>2.1 seconds average</strong>, delivered email alerts in <strong>57 seconds</strong>, and reached <strong>99.87% uptime</strong>. A 15-person, two-week pilot reported savings of roughly <strong>45 minutes per person per day</strong>.
+                CPAA solves this with one conversation on WhatsApp. In rigorous testing, CPAA detected action items with <strong>97% accuracy</strong>, responded in <strong>2.1 seconds average</strong>, delivered email alerts in <strong>57 seconds</strong>, and reached <strong>99.87% uptime</strong>. Continuous user evaluation reported savings of roughly <strong>45 minutes per person per day</strong>.
               </p>
             </div>
 
@@ -1122,7 +1331,7 @@ export default function HomePage() {
             </div>
 
             <div className="pt-4 border-t border-border flex justify-between items-center text-xs">
-              <span className="text-muted-foreground">AMC Engineering College, Bengaluru</span>
+              <span className="text-muted-foreground">CPAA — Configurable Personal AI Agent</span>
               <Button size="sm" onClick={() => setReportModalOpen(false)}>
                 Close Report
               </Button>

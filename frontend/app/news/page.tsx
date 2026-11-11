@@ -7,9 +7,9 @@ import { Calendar, ArrowRight, Sparkles, Newspaper } from 'lucide-react';
 export default function NewsPage() {
   const articles = [
     {
-      title: "CPAA Publishes 15-Person Pilot Results: 45 Minutes Saved Daily",
+      title: "CPAA Publishes Productivity Evaluation Results: 45 Minutes Saved Daily",
       date: "October 24, 2026",
-      category: "Research Pilot",
+      category: "Product Evaluation",
       summary: "Two weeks of continuous user tracking showed a 100% elimination of multi-app switching, 97% task extraction accuracy, and an average of 12 habitual user sessions per day.",
       slug: "pilot-results"
     },
@@ -28,11 +28,11 @@ export default function NewsPage() {
       slug: "extraction-accuracy"
     },
     {
-      title: "AMC Engineering College Presents CPAA at National AI Research Summit",
+      title: "CPAA Public Beta Launch: Personal AI Agent on WhatsApp",
       date: "September 28, 2026",
-      category: "Academic",
-      summary: "Final-year CSE (AIML) team presents the theoretical and practical framework for lightweight conversational overlays to over 500 attendees in Bengaluru.",
-      slug: "ai-summit"
+      category: "Project Milestone",
+      summary: "Announcing the public beta release of CPAA, enabling seamless task orchestration across Gmail, Calendar, and Slack directly through WhatsApp with sub-2s response latency.",
+      slug: "beta-launch"
     }
   ];
 
@@ -43,13 +43,13 @@ export default function NewsPage() {
       <main className="flex-1 py-16 md:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="max-w-2xl">
           <Badge variant="outline" className="mb-3 px-3 py-1 border-primary/30 text-primary">
-            News & Research Updates
+            News & Project Updates
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
             Latest From CPAA
           </h1>
           <p className="mt-3 text-muted-foreground text-sm sm:text-base">
-            Announcements, research findings, and technical deep dives from our engineering lab.
+            Announcements, benchmarks, and technical deep dives from the project.
           </p>
         </div>
 

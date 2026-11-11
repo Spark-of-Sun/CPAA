@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-import { Mail, MapPin, Clock, MessageSquare, Send, Loader2 } from 'lucide-react';
+import { Mail, Clock, MessageSquare, Send, Loader2 } from 'lucide-react';
 
 export default function ContactPage() {
   const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ export default function ContactPage() {
       setLoading(false);
       setSubmitted(true);
       toast.success('Message dispatched successfully!', {
-        description: 'Our founding team will reply within 24 hours.'
+        description: 'We will reply within 24 hours.'
       });
     }, 800);
   };
@@ -43,10 +43,10 @@ export default function ContactPage() {
             Get in Touch
           </Badge>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-            Contact the CPAA Group
+            Contact CPAA
           </h1>
           <p className="mt-3 text-muted-foreground text-sm sm:text-base leading-relaxed">
-            Interested in launching a pilot, offering cloud infrastructure support, or exploring research collaborations? We&apos;d love to connect.
+            Interested in deploying CPAA, requesting early access, or sharing feedback? We&apos;d love to connect.
           </p>
         </div>
 
@@ -54,20 +54,13 @@ export default function ContactPage() {
           {/* Contact Information */}
           <div className="lg:col-span-5 space-y-6">
             <div className="glass-card rounded-2xl p-6 border border-border space-y-4">
-              <h3 className="font-bold text-base text-foreground">Academic Research Lab</h3>
+              <h3 className="font-bold text-base text-foreground">Contact Information</h3>
               <div className="space-y-3 text-xs text-muted-foreground">
-                <div className="flex items-start gap-3">
-                  <MapPin className="size-4 text-primary shrink-0 mt-0.5" />
-                  <span>
-                    Department of CSE (AIML)<br />
-                    AMC Engineering College, Bannerghatta Main Road<br />
-                    Bengaluru, Karnataka 560083, India
-                  </span>
-                </div>
-
                 <div className="flex items-center gap-3">
                   <Mail className="size-4 text-primary shrink-0" />
-                  <span>contact@cpaa.ai / aiml.cpaa@amcec.edu.in</span>
+                  <a href="mailto:contact@ganpatikrsah.site" className="text-foreground hover:text-primary transition-colors">
+                    contact@ganpatikrsah.site
+                  </a>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -137,7 +130,7 @@ export default function ContactPage() {
                       <option value="Pilot Partnership">Pilot Partnership Inquiry</option>
                       <option value="Enterprise Sales">Enterprise Deployment</option>
                       <option value="Cloud Credits">Cloud Infrastructure & Credits</option>
-                      <option value="Academic Collaboration">Academic & Research Collaboration</option>
+                      <option value="Feature Feedback">Feature Request & Feedback</option>
                       <option value="General Support">General Support</option>
                     </select>
                   </div>

@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "CPAA — Autonomous Personal AI Agent",
+  title: "CPAA — Configurable Personal AI Agent",
   description: "Connect WhatsApp, Gmail, Calendar & Slack into one seamless personal AI productivity assistant.",
   icons: {
     icon: "/favicon.ico",

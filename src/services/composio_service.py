@@ -102,6 +102,18 @@ class ComposioService:
                 enabled[toolkit_key] = value.strip()
         return enabled
 
+    def _get_env_upcoming_toolkits(self) -> List[str]:
+        """
+        Scan all COMPOSIO_AUTH_* env vars with an empty value.
+        Returns list of upcoming toolkit names (coming soon).
+        """
+        upcoming = []
+        for key, value in os.environ.items():
+            if key.startswith("COMPOSIO_AUTH_") and not value.strip():
+                toolkit_key = key.removeprefix("COMPOSIO_AUTH_").lower()
+                upcoming.append(toolkit_key)
+        return upcoming
+
     
     async def get_available_toolkits(self) -> List[Dict]:
         """Get list of available toolkits from auth configs"""

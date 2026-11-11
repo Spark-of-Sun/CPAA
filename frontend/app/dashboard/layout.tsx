@@ -17,6 +17,7 @@ import {
   HelpCircle,
   Eye,
   Lock,
+  Home,
 } from "lucide-react"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -97,7 +98,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
             </div>
 
-            <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              {/* Home link to main start page */}
+              <Button asChild size="sm" variant="ghost" className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/60">
+                <Link href="/" title="Go to Main Start Page">
+                  <Home className="size-3.5" />
+                  <span>Home</span>
+                </Link>
+              </Button>
+
               {/* Status Pill */}
               {isGuest ? (
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 border border-amber-500/25 text-amber-400">
@@ -129,19 +138,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </Button>
               )}
 
-              {isGuest ? (
+              {isGuest && (
                 <Button asChild size="sm" className="h-8 gap-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-xs shadow-md shadow-indigo-500/20">
                   <a href={api.login()}>
                     <Sparkles className="size-3.5" />
                     <span>Log In</span>
                   </a>
-                </Button>
-              ) : (
-                <Button asChild size="sm" variant="ghost" className="h-8 text-xs text-muted-foreground hover:text-foreground">
-                  <Link href="/">
-                    <HelpCircle className="size-4 mr-1.5" />
-                    <span className="hidden sm:inline">Product Tour</span>
-                  </Link>
                 </Button>
               )}
             </div>
