@@ -298,13 +298,13 @@ export default function HomePage() {
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="size-3.5 text-emerald-400" /> Dynamic MCP Loading
+              <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-emerald-400" /> Dynamic MCP Loading
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="size-3.5 text-emerald-400" /> 100+ Tools on User Demand
+              <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-emerald-400" /> 100+ Tools on User Demand
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="size-3.5 text-emerald-400" /> Zero Code Configuration
+              <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-emerald-400" /> Zero Code Configuration
             </span>
             <Link
               href="/dashboard/integrations"
@@ -335,7 +335,7 @@ export default function HomePage() {
             {/* Stat Card 1 */}
             <div className="glass-card rounded-2xl p-7 border-border flex flex-col justify-between">
               <div>
-                <div className="size-12 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center mb-5">
+                <div className="size-12 rounded-xl bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center mb-5">
                   <Clock className="size-6" />
                 </div>
                 <div className="text-3xl font-extrabold text-foreground mb-1">28%</div>
@@ -352,7 +352,7 @@ export default function HomePage() {
             {/* Stat Card 2 */}
             <div className="glass-card rounded-2xl p-7 border-border flex flex-col justify-between">
               <div>
-                <div className="size-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-5">
+                <div className="size-12 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center mb-5">
                   <AlertCircleIcon className="size-6" />
                 </div>
                 <div className="text-3xl font-extrabold text-foreground mb-1">42%</div>
@@ -369,7 +369,7 @@ export default function HomePage() {
             {/* Stat Card 3 */}
             <div className="glass-card rounded-2xl p-7 border-border flex flex-col justify-between">
               <div>
-                <div className="size-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-5">
+                <div className="size-12 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-400 flex items-center justify-center mb-5">
                   <Brain className="size-6" />
                 </div>
                 <div className="text-3xl font-extrabold text-foreground mb-1">4 to 6</div>
@@ -453,66 +453,66 @@ export default function HomePage() {
         >
           {/* Left: Realistic WhatsApp Frame */}
           <div className="lg:col-span-7">
-            <div className="rounded-2xl border border-border/80 bg-zinc-950 shadow-2xl overflow-hidden flex flex-col h-[520px]">
+            <div className="rounded-2xl border border-slate-300/80 dark:border-border/80 bg-white dark:bg-zinc-950 shadow-2xl shadow-slate-300/60 dark:shadow-black/70 overflow-hidden flex flex-col h-[520px] transition-colors">
               {/* WhatsApp Header */}
-              <div className="bg-zinc-900 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+              <div className="bg-[#008069] dark:bg-zinc-900 border-b border-[#006e5a] dark:border-zinc-800 px-4 py-3 flex items-center justify-between text-white transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="size-10 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white font-bold shadow-md">
-                      <Bot className="size-5" />
+                    <div className="size-10 rounded-full bg-white/20 dark:bg-gradient-to-tr dark:from-emerald-500 dark:to-teal-400 flex items-center justify-center text-white font-bold shadow-md">
+                      <Bot className="size-5 text-white" />
                     </div>
-                    <span className="absolute bottom-0 right-0 size-3 rounded-full bg-emerald-500 ring-2 ring-zinc-900" />
+                    <span className="absolute bottom-0 right-0 size-3 rounded-full bg-emerald-400 ring-2 ring-[#008069] dark:ring-zinc-900" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="text-sm font-semibold text-zinc-100">CPAA Agent</h4>
-                      <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-medium">Meta Cloud API</span>
+                      <h4 className="text-sm font-semibold text-white dark:text-zinc-100">CPAA Agent</h4>
+                      <span className="text-[10px] bg-white/20 text-emerald-100 dark:bg-emerald-500/20 dark:text-emerald-400 px-1.5 py-0.2 rounded font-medium">Meta Cloud API</span>
                     </div>
-                    <p className="text-xs text-zinc-400">Online • 99.87% Verified Uptime</p>
+                    <p className="text-xs text-emerald-100/90 dark:text-zinc-400">Online • 99.87% Verified Uptime</p>
                   </div>
                 </div>
 
-                <Badge variant="secondary" className="bg-zinc-800 text-zinc-300 border-zinc-700 text-xs">
+                <Badge variant="secondary" className="bg-white/15 text-white border-white/20 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700 text-xs">
                   {scenarios[activeScenario].badge}
                 </Badge>
               </div>
 
               {/* Chat Body */}
-              <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-zinc-950/80 bg-grid-pattern">
+              <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-[#efeae2] dark:bg-zinc-950/80 bg-grid-pattern transition-colors">
                 <div className="flex justify-center">
-                  <span className="text-[11px] bg-zinc-900 text-zinc-400 px-3 py-1 rounded-full border border-zinc-800">
+                  <span className="text-[11px] bg-white/95 text-slate-600 border border-slate-300/60 dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-800 px-3 py-1 rounded-full shadow-xs">
                     Encrypted Session • TLS 1.3
                   </span>
                 </div>
 
                 {/* User Bubble */}
                 <div className="flex justify-end">
-                  <div className="max-w-[85%] bg-emerald-700 text-emerald-50 rounded-2xl rounded-tr-none px-4 py-2.5 shadow-md">
+                  <div className="max-w-[85%] bg-[#d9fdd3] text-[#111b21] dark:bg-emerald-700 dark:text-emerald-50 rounded-2xl rounded-tr-none px-4 py-2.5 shadow-sm">
                     <p className="text-sm leading-relaxed">{scenarios[activeScenario].userMsg}</p>
-                    <div className="flex justify-end items-center gap-1 mt-1 text-[10px] text-emerald-200/80">
+                    <div className="flex justify-end items-center gap-1 mt-1 text-[10px] text-slate-500 dark:text-emerald-200/80">
                       <span>{scenarios[activeScenario].time}</span>
-                      <CheckCircle2 className="size-3 text-emerald-300" />
+                      <CheckCircle2 className="size-3 text-[#53bdeb] dark:text-emerald-300" />
                     </div>
                   </div>
                 </div>
 
                 {/* Agent Bubble */}
                 <div className="flex justify-start">
-                  <div className="max-w-[90%] bg-zinc-900 border border-zinc-800 text-zinc-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-md space-y-2">
-                    <div className="flex items-center justify-between text-xs font-semibold text-indigo-400 mb-1">
+                  <div className="max-w-[90%] bg-white text-[#111b21] border border-black/5 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-100 rounded-2xl rounded-tl-none px-4 py-3 shadow-sm space-y-2">
+                    <div className="flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
                       <span className="flex items-center gap-1.5">
                         <Sparkles className="size-3.5" />
                         <span>CPAA Hybrid Reasoning Engine</span>
                       </span>
-                      <span className="text-[10px] font-mono text-emerald-400">
+                      <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400">
                         {scenarios[activeScenario].latency}
                       </span>
                     </div>
-                    <p className="text-sm leading-relaxed whitespace-pre-line text-zinc-200">
+                    <p className="text-sm leading-relaxed whitespace-pre-line text-slate-800 dark:text-zinc-200">
                       {scenarios[activeScenario].agentMsg}
                     </p>
-                    <div className="flex justify-between items-center pt-2 border-t border-zinc-800/80 text-[10px] text-zinc-400">
-                      <span className="flex items-center gap-1 text-emerald-400">
+                    <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-zinc-800/80 text-[10px] text-slate-500 dark:text-zinc-400">
+                      <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-medium">
                         <CheckCircle2 className="size-3" /> {scenarios[activeScenario].accuracy}
                       </span>
                       <span>Just now</span>
@@ -522,12 +522,12 @@ export default function HomePage() {
               </div>
 
               {/* Chat Input Bar */}
-              <div className="bg-zinc-900 border-t border-zinc-800 p-3 flex items-center gap-2">
-                <div className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-400 flex items-center justify-between">
+              <div className="bg-[#f0f2f5] dark:bg-zinc-900 border-t border-slate-300/70 dark:border-zinc-800 p-3 flex items-center gap-2 transition-colors">
+                <div className="flex-1 bg-white dark:bg-zinc-950 border border-slate-300/80 dark:border-zinc-800 rounded-xl px-3 py-2 text-xs text-slate-500 dark:text-zinc-400 flex items-center justify-between shadow-xs">
                   <span>Message CPAA on WhatsApp...</span>
-                  <span className="text-[10px] bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-300">2.1s avg response</span>
+                  <span className="text-[10px] bg-slate-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-slate-700 dark:text-zinc-300 font-medium">2.1s avg response</span>
                 </div>
-                <div className="size-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
+                <div className="size-9 rounded-xl bg-[#00a884] dark:bg-emerald-600 flex items-center justify-center text-white shadow-sm">
                   <MessageSquare className="size-4" />
                 </div>
               </div>
@@ -548,7 +548,7 @@ export default function HomePage() {
               <div className="space-y-3 font-mono text-xs">
                 <div className="p-3 rounded-lg bg-muted/50 border border-border">
                   <p className="text-muted-foreground">Action Executed:</p>
-                  <p className="text-indigo-400 font-semibold mt-1">
+                  <p className="text-indigo-600 dark:text-indigo-400 font-semibold mt-1">
                     {scenarios[activeScenario].agentAction}
                   </p>
                 </div>
@@ -556,7 +556,7 @@ export default function HomePage() {
                 <div className="p-3 rounded-lg bg-muted/50 border border-border space-y-1.5">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Measured Latency:</span>
-                    <span className="text-emerald-400 font-semibold">{scenarios[activeScenario].latency} (Target: 2.5s)</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{scenarios[activeScenario].latency} (Target: 2.5s)</span>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
                     <span>Tool Cache Status:</span>
@@ -564,11 +564,11 @@ export default function HomePage() {
                   </div>
                   <div className="flex justify-between text-muted-foreground">
                     <span>Memory Context:</span>
-                    <span className="text-purple-400 font-semibold">10-Msg Sliding Window + Vector</span>
+                    <span className="text-purple-600 dark:text-purple-400 font-semibold">10-Msg Sliding Window + Vector</span>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
                     <span>Security Verification:</span>
-                    <span className="text-emerald-400 font-semibold">Sanitized, Zero Prompt Injection</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Sanitized, Zero Prompt Injection</span>
                   </div>
                 </div>
               </div>
@@ -631,79 +631,79 @@ export default function HomePage() {
 
               <div className="grid grid-cols-12 p-4 items-center">
                 <div className="col-span-5 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
                   Task Extraction Accuracy
                 </div>
                 <div className="col-span-3 text-muted-foreground">95%</div>
-                <div className="col-span-4 font-bold text-emerald-400 font-mono">97% Achieved</div>
+                <div className="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 font-mono">97% Achieved</div>
               </div>
 
               <div className="grid grid-cols-12 p-4 items-center">
                 <div className="col-span-5 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
                   Average Response Time
                 </div>
                 <div className="col-span-3 text-muted-foreground">&lt; 2.5 seconds</div>
-                <div className="col-span-4 font-bold text-emerald-400 font-mono">2.1s Average (1.4s at scale)</div>
+                <div className="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 font-mono">2.1s Average (1.4s at scale)</div>
               </div>
 
               <div className="grid grid-cols-12 p-4 items-center">
                 <div className="col-span-5 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
                   Email Push Alert Latency
                 </div>
                 <div className="col-span-3 text-muted-foreground">&lt; 60 seconds</div>
-                <div className="col-span-4 font-bold text-emerald-400 font-mono">57s Average</div>
+                <div className="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 font-mono">57s Average</div>
               </div>
 
               <div className="grid grid-cols-12 p-4 items-center">
                 <div className="col-span-5 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
                   System Availability / Uptime
                 </div>
                 <div className="col-span-3 text-muted-foreground">99.5%</div>
-                <div className="col-span-4 font-bold text-emerald-400 font-mono">99.87% Tested</div>
+                <div className="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 font-mono">99.87% Tested</div>
               </div>
 
               <div className="grid grid-cols-12 p-4 items-center">
                 <div className="col-span-5 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
                   Multi-Turn Context Preservation
                 </div>
                 <div className="col-span-3 text-muted-foreground">90%</div>
-                <div className="col-span-4 font-bold text-emerald-400 font-mono">98% (49 of 50 test chats)</div>
+                <div className="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 font-mono">98% (49 of 50 test chats)</div>
               </div>
 
               <div className="grid grid-cols-12 p-4 items-center">
                 <div className="col-span-5 font-medium flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-emerald-400" />
+                  <CheckCircle2 className="size-4 text-emerald-600 dark:text-emerald-400" />
                   Security & Token Isolation
                 </div>
                 <div className="col-span-3 text-muted-foreground">Zero Leaks</div>
-                <div className="col-span-4 font-bold text-emerald-400 font-mono">50/50 Penetration Attacks Blocked</div>
+                <div className="col-span-4 font-bold text-emerald-600 dark:text-emerald-400 font-mono">50/50 Penetration Attacks Blocked</div>
               </div>
             </div>
           </div>
 
           {/* Measured Results Highlight */}
-          <div className="rounded-3xl border border-indigo-500/20 bg-gradient-to-r from-indigo-950/40 via-card/50 to-purple-950/40 p-8 sm:p-10 max-w-4xl mx-auto shadow-2xl">
+          <div className="rounded-3xl border border-indigo-500/20 bg-gradient-to-r from-indigo-50/80 via-card to-purple-50/80 dark:from-indigo-950/40 dark:via-card/50 dark:to-purple-950/40 p-8 sm:p-10 max-w-4xl mx-auto shadow-xl dark:shadow-2xl">
             <div className="grid sm:grid-cols-3 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-border/60">
               <div className="pt-4 sm:pt-0">
-                <div className="text-4xl font-extrabold text-white font-mono">45 min</div>
+                <div className="text-4xl font-extrabold text-foreground font-mono">45 min</div>
                 <p className="text-xs text-muted-foreground mt-1">Saved per person per day</p>
-                <p className="text-[11px] text-emerald-400 mt-0.5">Continuous user evaluation</p>
+                <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">Continuous user evaluation</p>
               </div>
 
               <div className="pt-4 sm:pt-0 sm:pl-6">
-                <div className="text-4xl font-extrabold text-white font-mono">12/day</div>
+                <div className="text-4xl font-extrabold text-foreground font-mono">12/day</div>
                 <p className="text-xs text-muted-foreground mt-1">Average user sessions</p>
-                <p className="text-[11px] text-indigo-400 mt-0.5">Habitual daily adoption</p>
+                <p className="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium mt-0.5">Habitual daily adoption</p>
               </div>
 
               <div className="pt-4 sm:pt-0 sm:pl-6">
-                <div className="text-4xl font-extrabold text-white font-mono">100%</div>
+                <div className="text-4xl font-extrabold text-foreground font-mono">100%</div>
                 <p className="text-xs text-muted-foreground mt-1">Reported zero app-switching</p>
-                <p className="text-[11px] text-purple-400 mt-0.5">Eliminated context switching</p>
+                <p className="text-[11px] text-purple-600 dark:text-purple-400 font-medium mt-0.5">Eliminated context switching</p>
               </div>
             </div>
           </div>
@@ -740,7 +740,7 @@ export default function HomePage() {
                 Sends and receives natural language text and voice notes. Leverages WhatsApp's 2B+ global install base so users never need to adopt another app.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-emerald-400">
+            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
               ✓ Sub-second webhook routing
             </div>
           </div>
@@ -749,7 +749,7 @@ export default function HomePage() {
           <div className="glass-card rounded-2xl p-6 border-border flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="size-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-xs">
+                <div className="size-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs">
                   02
                 </div>
                 <Badge variant="secondary" className="text-[10px]">Gateway</Badge>
@@ -760,7 +760,7 @@ export default function HomePage() {
                 Encrypted entry point. Enforces 100 req/min/user rate limits, sanitizes incoming payloads against prompt injection, and manages session tokens.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-indigo-400">
+            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-indigo-600 dark:text-indigo-400 font-medium">
               ✓ 100 req/min rate limit per user
             </div>
           </div>
@@ -769,7 +769,7 @@ export default function HomePage() {
           <div className="glass-card rounded-2xl p-6 border-border flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="size-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-xs">
+                <div className="size-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs">
                   03
                 </div>
                 <Badge variant="secondary" className="text-[10px]">Orchestration</Badge>
@@ -780,7 +780,7 @@ export default function HomePage() {
                 Coordinates an isolated agent instance per user. Implements sliding window memory, task priority algorithms, and human-in-the-loop safeguards.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-blue-400">
+            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-blue-600 dark:text-blue-400 font-medium">
               ✓ 150 RPS peak throughput
             </div>
           </div>
@@ -789,7 +789,7 @@ export default function HomePage() {
           <div className="glass-card rounded-2xl p-6 border-border flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="size-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-xs">
+                <div className="size-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-xs">
                   04
                 </div>
                 <Badge variant="secondary" className="text-[10px]">Integrations</Badge>
@@ -800,7 +800,7 @@ export default function HomePage() {
                 Single unified abstraction layer to Gmail, Google Calendar, Slack, and Google Meet. Automatically handles OAuth2 lifecycle and token refresh.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-purple-400">
+            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-purple-600 dark:text-purple-400 font-medium">
               ✓ 89% tool cache hit rate (-300ms)
             </div>
           </div>
@@ -809,7 +809,7 @@ export default function HomePage() {
           <div className="glass-card rounded-2xl p-6 border-border flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="size-10 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center font-bold text-xs">
+                <div className="size-10 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold text-xs">
                   05
                 </div>
                 <Badge variant="secondary" className="text-[10px]">Reasoning</Badge>
@@ -820,7 +820,7 @@ export default function HomePage() {
                 Natural language understanding, action extraction, intent classification, and entity resolution with prompt caching to minimize latency and inference cost.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-pink-400">
+            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-pink-600 dark:text-pink-400 font-medium">
               ✓ 97% task extraction accuracy
             </div>
           </div>
@@ -829,7 +829,7 @@ export default function HomePage() {
           <div className="glass-card rounded-2xl p-6 border-border flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="size-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-xs">
+                <div className="size-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold text-xs">
                   06
                 </div>
                 <Badge variant="secondary" className="text-[10px]">Storage</Badge>
@@ -840,7 +840,7 @@ export default function HomePage() {
                 Durable relational storage for audit logs and user preferences. High-performance Redis for rate limiting, active session states, and short-term sliding context.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-amber-400">
+            <div className="mt-4 pt-3 border-t border-border/50 text-[11px] text-amber-700 dark:text-amber-400 font-medium">
               ✓ AES-256 AWS KMS encrypted
             </div>
           </div>
@@ -894,14 +894,14 @@ export default function HomePage() {
                   <p className="text-3xl sm:text-4xl font-black text-foreground font-mono mt-2">
                     {annualHoursSaved.toLocaleString()} hrs
                   </p>
-                  <p className="text-[11px] text-indigo-400 mt-1">
+                  <p className="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium mt-1">
                     ~{(annualHoursSaved / 2000).toFixed(1)} person-years
                   </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-muted/30 border border-border/40">
                   <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Estimated Value Saved</p>
-                  <p className="text-3xl sm:text-4xl font-black text-emerald-400 font-mono mt-2">
+                  <p className="text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400 font-mono mt-2">
                     ${annualDollarsSaved.toLocaleString()}
                   </p>
                   <p className="text-[11px] text-muted-foreground mt-1">
@@ -911,10 +911,10 @@ export default function HomePage() {
 
                 <div className="p-4 rounded-2xl bg-muted/30 border border-border/40">
                   <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Commitments Preserved</p>
-                  <p className="text-3xl sm:text-4xl font-black text-purple-400 font-mono mt-2">
+                  <p className="text-3xl sm:text-4xl font-black text-purple-600 dark:text-purple-400 font-mono mt-2">
                     {Math.round(teamSize * 42)} / mo
                   </p>
-                  <p className="text-[11px] text-purple-300 mt-1">
+                  <p className="text-[11px] text-purple-600 dark:text-purple-300 font-medium mt-1">
                     42% reduction in missed tasks
                   </p>
                 </div>
@@ -960,42 +960,42 @@ export default function HomePage() {
             <tbody className="divide-y divide-border/60">
               <tr>
                 <td className="p-4 font-medium">Platforms Unified</td>
-                <td className="p-4 font-bold text-emerald-400">Gmail, Calendar, Slack, Meet</td>
+                <td className="p-4 font-bold text-emerald-700 dark:text-emerald-400">Gmail, Calendar, Slack, Meet</td>
                 <td className="p-4 text-muted-foreground">Gmail only</td>
                 <td className="p-4 text-muted-foreground">Microsoft only</td>
                 <td className="p-4 text-muted-foreground">Notion only</td>
               </tr>
               <tr>
                 <td className="p-4 font-medium">Task Extraction</td>
-                <td className="p-4 font-bold text-emerald-400">97% accuracy (unstructured)</td>
+                <td className="p-4 font-bold text-emerald-700 dark:text-emerald-400">97% accuracy (unstructured)</td>
                 <td className="p-4 text-muted-foreground">Limited heuristics</td>
                 <td className="p-4 text-muted-foreground">Manual tagging</td>
                 <td className="p-4 text-muted-foreground">Limited to docs</td>
               </tr>
               <tr>
                 <td className="p-4 font-medium">Real-Time Alerts</td>
-                <td className="p-4 font-bold text-emerald-400">~57s via WhatsApp Push</td>
+                <td className="p-4 font-bold text-emerald-700 dark:text-emerald-400">~57s via WhatsApp Push</td>
                 <td className="p-4 text-muted-foreground">Batched inbox</td>
                 <td className="p-4 text-muted-foreground">Teams email only</td>
                 <td className="p-4 text-muted-foreground">Not yet</td>
               </tr>
               <tr>
                 <td className="p-4 font-medium">Interface</td>
-                <td className="p-4 font-bold text-emerald-400">WhatsApp Native (0 install)</td>
+                <td className="p-4 font-bold text-emerald-700 dark:text-emerald-400">WhatsApp Native (0 install)</td>
                 <td className="p-4 text-muted-foreground">Web client / extension</td>
                 <td className="p-4 text-muted-foreground">Microsoft Teams app</td>
                 <td className="p-4 text-muted-foreground">Notion desktop / web</td>
               </tr>
               <tr>
                 <td className="p-4 font-medium">Multi-Turn Context</td>
-                <td className="p-4 font-bold text-emerald-400">Yes (10-message window)</td>
+                <td className="p-4 font-bold text-emerald-700 dark:text-emerald-400">Yes (10-message window)</td>
                 <td className="p-4 text-muted-foreground">Single turn</td>
                 <td className="p-4 text-muted-foreground">Within Teams only</td>
                 <td className="p-4 text-muted-foreground">Per-page only</td>
               </tr>
               <tr>
                 <td className="p-4 font-medium">Vendor Neutrality</td>
-                <td className="p-4 font-bold text-emerald-400">100% Cross-Platform</td>
+                <td className="p-4 font-bold text-emerald-700 dark:text-emerald-400">100% Cross-Platform</td>
                 <td className="p-4 text-muted-foreground">Google only</td>
                 <td className="p-4 text-muted-foreground">Strict lock-in</td>
                 <td className="p-4 text-muted-foreground">Walled garden</td>
@@ -1031,7 +1031,7 @@ export default function HomePage() {
                   <div className="size-14 rounded-2xl bg-gradient-to-tr from-purple-500 via-fuchsia-500 to-pink-500 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-purple-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-purple-500/40 transition-all duration-300">
                     GK
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-purple-500/10 text-purple-300 border-purple-500/20">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/20">
                     <Terminal className="size-3" />
                     <span>Backend Lead</span>
                   </span>
@@ -1067,7 +1067,7 @@ export default function HomePage() {
                   <div className="size-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-blue-500 to-cyan-400 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-indigo-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-indigo-500/40 transition-all duration-300">
                     GM
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-indigo-500/10 text-indigo-300 border-indigo-500/20">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20">
                     <Layers className="size-3" />
                     <span>Full-Stack Lead</span>
                   </span>
@@ -1103,7 +1103,7 @@ export default function HomePage() {
                   <div className="size-14 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-400 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-emerald-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-emerald-500/40 transition-all duration-300">
                     JG
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-emerald-500/10 text-emerald-300 border-emerald-500/20">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20">
                     <Brain className="size-3" />
                     <span>LLM Reasoning</span>
                   </span>
@@ -1139,7 +1139,7 @@ export default function HomePage() {
                   <div className="size-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 text-white font-bold text-lg flex items-center justify-center shadow-lg shadow-amber-500/25 ring-2 ring-border/80 group-hover:scale-105 group-hover:ring-amber-500/40 transition-all duration-300">
                     DJ
                   </div>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-amber-500/10 text-amber-300 border-amber-500/20">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium border bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/20">
                     <ShieldCheck className="size-3" />
                     <span>Security & QA</span>
                   </span>
@@ -1171,21 +1171,21 @@ export default function HomePage() {
 
       {/* The Ask / Join Pilot Partners */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-gradient-to-tr from-indigo-950 via-zinc-900 to-purple-950 border border-indigo-500/20 p-10 sm:p-16 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-radial-glow opacity-60 pointer-events-none" />
+        <div className="rounded-3xl bg-gradient-to-br from-indigo-50/80 via-card to-purple-50/80 dark:from-indigo-950 dark:via-zinc-900 dark:to-purple-950 text-foreground dark:text-white border border-indigo-200/80 dark:border-indigo-500/25 p-10 sm:p-16 text-center relative overflow-hidden shadow-xl dark:shadow-2xl shadow-indigo-500/5 dark:shadow-indigo-950/40 transition-colors">
+          <div className="absolute inset-0 bg-radial-glow opacity-70 dark:opacity-60 pointer-events-none" />
           <div className="relative z-10 max-w-3xl mx-auto">
-            <Badge variant="outline" className="mb-4 px-3 py-1 border-white/20 text-zinc-200">
+            <Badge variant="outline" className="mb-4 px-3 py-1 border-indigo-500/30 text-indigo-700 bg-indigo-50 dark:border-white/20 dark:bg-white/10 dark:text-white font-medium text-xs transition-colors">
               Moving From Research to Market
             </Badge>
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground dark:text-white leading-tight transition-colors">
               Ready to Turn Scattered Work into a Single Conversation?
             </h2>
-            <p className="mt-4 text-zinc-300 text-base sm:text-lg leading-relaxed">
+            <p className="mt-4 text-muted-foreground dark:text-slate-200 text-base sm:text-lg leading-relaxed transition-colors">
               We are seeking pilot partners, cloud infrastructure support, and advisory mentorship to scale CPAA to teams worldwide.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button asChild size="lg" className="h-12 px-8 text-base bg-white text-zinc-950 hover:bg-zinc-100 font-semibold rounded-xl shadow-xl">
+              <Button asChild size="lg" className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 font-semibold rounded-xl shadow-md dark:shadow-xl transition-colors">
                 {user ? (
                   <Link href="/dashboard" className="flex items-center gap-2">
                     <span>Open Dashboard</span>
@@ -1203,9 +1203,9 @@ export default function HomePage() {
                 variant="outline"
                 size="lg"
                 onClick={() => setReportModalOpen(true)}
-                className="h-12 px-6 text-base rounded-xl border-white/20 text-white hover:bg-white/10"
+                className="h-12 px-6 text-base rounded-xl border border-slate-300 dark:border-white/30 bg-card/90 dark:bg-transparent text-foreground dark:text-white hover:bg-muted dark:hover:bg-white/10 font-semibold shadow-xs transition-colors"
               >
-                <BookOpen className="size-4 mr-2" />
+                <BookOpen className="size-4 mr-2 text-primary dark:text-white transition-colors" />
                 <span>Read Full Pitch Document</span>
               </Button>
             </div>

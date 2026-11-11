@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { api, User } from '@/lib/api';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -192,7 +193,7 @@ export function MarketingNavbar() {
         </nav>
 
         {/* Right CTA */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-2.5">
           <a
             href="https://github.com/Spark-of-Sun/CPAA"
             target="_blank"
@@ -214,7 +215,7 @@ export function MarketingNavbar() {
             <>
               <Button asChild variant="outline" size="sm" className="border-border/70 hover:bg-muted/50 text-xs font-medium">
                 <Link href="/dashboard" className="flex items-center gap-1.5">
-                  <Eye className="size-3.5 text-amber-400" />
+                  <Eye className="size-3.5 text-amber-500" />
                   <span>Explore as Guest</span>
                 </Link>
               </Button>
@@ -229,10 +230,14 @@ export function MarketingNavbar() {
               </Button>
             </>
           )}
+
+          <div className="h-5 w-px bg-border/80 mx-0.5" />
+          <ThemeToggle />
         </div>
 
         {/* Mobile Hamburger Button */}
         <div className="flex lg:hidden items-center gap-2">
+          <ThemeToggle />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground"
@@ -268,8 +273,8 @@ export function MarketingNavbar() {
           <div className="pt-2 border-t border-border flex items-center justify-between gap-2">
             <Button asChild variant="outline" size="sm" className="text-xs">
               <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5">
-                <Eye className="size-3 text-amber-400" />
-                <span>Guest Mode</span>
+                <Eye className="size-3 text-amber-500" />
+                <span>Guest</span>
               </Link>
             </Button>
             <div className="flex items-center gap-2">
@@ -277,6 +282,7 @@ export function MarketingNavbar() {
               <Button asChild size="sm" className="bg-primary text-primary-foreground text-xs">
                 <a href={api.login()}>Get Started</a>
               </Button>
+              <ThemeToggle />
             </div>
           </div>
         </div>

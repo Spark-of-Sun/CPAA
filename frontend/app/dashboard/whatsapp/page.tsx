@@ -312,16 +312,16 @@ export default function WhatsAppPage() {
       {status?.linked ? (
         /* CONNECTED STATE */
         <div className="space-y-6">
-          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-6 md:p-8 backdrop-blur-md">
+          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 dark:bg-emerald-950/20 p-6 md:p-8 backdrop-blur-md">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="flex items-start gap-4">
-                <div className="size-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/10">
+                <div className="size-12 rounded-2xl bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/10">
                   <MessageSquare className="size-6" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-xl font-bold text-foreground">{status.phone_number}</h3>
-                    <Badge variant="secondary" className="bg-emerald-500/20 text-emerald-300 text-[10px]">
+                    <Badge variant="secondary" className="bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[10px]">
                       Verified
                     </Badge>
                   </div>
@@ -435,12 +435,12 @@ export default function WhatsAppPage() {
           {/* Tag / Notice: Before you connect WhatsApp number please contact developer to request access */}
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3.5">
-              <div className="size-9 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+              <div className="size-9 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
                 <AlertTriangle className="size-5" />
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="border-amber-500/40 text-amber-400 bg-amber-500/20 text-[10px] font-bold uppercase tracking-wider">
+                  <Badge variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300 bg-amber-500/20 text-[10px] font-bold uppercase tracking-wider">
                     Access Notice
                   </Badge>
                   <h4 className="text-sm font-bold text-foreground">Whitelist Verification Required</h4>
@@ -450,7 +450,7 @@ export default function WhatsAppPage() {
                 </p>
               </div>
             </div>
-            <Button asChild size="sm" variant="outline" className="border-amber-500/40 text-amber-300 hover:bg-amber-500/20 shrink-0">
+            <Button asChild size="sm" variant="outline" className="border-amber-500/40 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 shrink-0">
               <Link href="/contact">
                 Request Access <ExternalLink className="size-3.5 ml-1.5 opacity-70" />
               </Link>
@@ -464,7 +464,7 @@ export default function WhatsAppPage() {
                   WhatsApp Phone Number
                 </Label>
                 {/* Access Tag */}
-                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-700 dark:text-amber-400 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-500/20">
                   <Info className="size-3" />
                   Contact developer to request access first
                 </span>

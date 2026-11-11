@@ -72,7 +72,7 @@ export default function ContactPage() {
 
             <div className="glass-card rounded-2xl p-6 border border-border space-y-2">
               <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                <MessageSquare className="size-4 text-emerald-400" /> WhatsApp Direct Support
+                <MessageSquare className="size-4 text-emerald-600 dark:text-emerald-400" /> WhatsApp Direct Support
               </span>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Active pilot participants can query our support bot directly on WhatsApp for instant assistance.
@@ -85,7 +85,7 @@ export default function ContactPage() {
             <div className="glass-card rounded-2xl p-8 border border-border">
               {submitted ? (
                 <div className="text-center py-8 space-y-3">
-                  <div className="size-12 rounded-full bg-emerald-500/10 text-emerald-400 mx-auto flex items-center justify-center">
+                  <div className="size-12 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
                     <Send className="size-6" />
                   </div>
                   <h3 className="text-xl font-bold text-foreground">Message Delivered</h3>
@@ -125,13 +125,13 @@ export default function ContactPage() {
                       id="subject"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                      className="w-full h-9 rounded-md border border-input bg-background text-foreground px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                     >
-                      <option value="Pilot Partnership">Pilot Partnership Inquiry</option>
-                      <option value="Enterprise Sales">Enterprise Deployment</option>
-                      <option value="Cloud Credits">Cloud Infrastructure & Credits</option>
-                      <option value="Feature Feedback">Feature Request & Feedback</option>
-                      <option value="General Support">General Support</option>
+                      <option value="Pilot Partnership" className="bg-background text-foreground">Pilot Partnership Inquiry</option>
+                      <option value="Enterprise Sales" className="bg-background text-foreground">Enterprise Deployment</option>
+                      <option value="Cloud Credits" className="bg-background text-foreground">Cloud Infrastructure & Credits</option>
+                      <option value="Feature Feedback" className="bg-background text-foreground">Feature Request & Feedback</option>
+                      <option value="General Support" className="bg-background text-foreground">General Support</option>
                     </select>
                   </div>
 

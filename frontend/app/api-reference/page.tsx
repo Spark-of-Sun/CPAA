@@ -102,14 +102,14 @@ export default function ApiReferencePage() {
               <p className="text-xs text-muted-foreground">{ep.desc}</p>
 
               <div className="grid md:grid-cols-2 gap-4 pt-2 font-mono text-xs">
-                <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1.5">
-                  <p className="text-[11px] text-zinc-400 font-semibold uppercase tracking-wider">Request Payload</p>
-                  <pre className="text-zinc-300 overflow-x-auto">{ep.req}</pre>
+                <div className="p-3.5 rounded-xl bg-muted/60 dark:bg-zinc-950 border border-border dark:border-zinc-800 space-y-1.5 shadow-inner">
+                  <p className="text-[11px] text-muted-foreground font-semibold uppercase tracking-wider">Request Payload</p>
+                  <pre className="text-foreground dark:text-zinc-300 overflow-x-auto">{ep.req}</pre>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1.5">
-                  <p className="text-[11px] text-emerald-400 font-semibold uppercase tracking-wider">Response JSON (200 OK)</p>
-                  <pre className="text-zinc-300 overflow-x-auto">{ep.res}</pre>
+                <div className="p-3.5 rounded-xl bg-muted/60 dark:bg-zinc-950 border border-border dark:border-zinc-800 space-y-1.5 shadow-inner">
+                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">Response JSON (200 OK)</p>
+                  <pre className="text-foreground dark:text-zinc-300 overflow-x-auto">{ep.res}</pre>
                 </div>
               </div>
             </div>

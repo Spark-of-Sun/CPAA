@@ -60,7 +60,7 @@ export default function RequestAccessPage() {
         <div className="glass-card rounded-3xl p-8 sm:p-12 border border-border shadow-2xl relative">
           {submitted ? (
             <div className="text-center py-12 space-y-4">
-              <div className="size-16 rounded-full bg-emerald-500/10 text-emerald-400 mx-auto flex items-center justify-center">
+              <div className="size-16 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
                 <CheckCircle2 className="size-8" />
               </div>
               <h3 className="text-2xl font-bold text-foreground">Application Received</h3>
@@ -118,12 +118,12 @@ export default function RequestAccessPage() {
                     id="teamSize"
                     value={formData.teamSize}
                     onChange={(e) => setFormData({ ...formData, teamSize: e.target.value })}
-                    className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    className="w-full h-9 rounded-md border border-input bg-background text-foreground px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   >
-                    <option value="1-10">1 - 10 people</option>
-                    <option value="11-50">11 - 50 people</option>
-                    <option value="51-200">51 - 200 people</option>
-                    <option value="200+">200+ enterprise</option>
+                    <option value="1-10" className="bg-background text-foreground">1 - 10 people</option>
+                    <option value="11-50" className="bg-background text-foreground">11 - 50 people</option>
+                    <option value="51-200" className="bg-background text-foreground">51 - 200 people</option>
+                    <option value="200+" className="bg-background text-foreground">200+ enterprise</option>
                   </select>
                 </div>
               </div>

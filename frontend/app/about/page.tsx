@@ -13,7 +13,7 @@ export default function AboutPage() {
       glowBg: "bg-purple-500/10 group-hover:bg-purple-500/20",
       icon: Terminal,
       shortRole: "Backend Lead",
-      badgeClass: "bg-purple-500/10 text-purple-300 border-purple-500/20",
+      badgeClass: "bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/20",
       role: "Backend Architecture & Agent Loop",
       desc: "Architected the asynchronous FastAPI execution loop, multi-agent dispatch pipeline, and PostgreSQL state persistence.",
       skills: ["FastAPI", "Agent Loop", "Tool Dispatch", "PostgreSQL"]
@@ -26,7 +26,7 @@ export default function AboutPage() {
       glowBg: "bg-indigo-500/10 group-hover:bg-indigo-500/20",
       icon: Layers,
       shortRole: "Full-Stack Lead",
-      badgeClass: "bg-indigo-500/10 text-indigo-300 border-indigo-500/20",
+      badgeClass: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20",
       role: "Full-Stack Systems & Composio",
       desc: "Engineered the Next.js command dashboard, Composio OAuth tool bridges (Gmail, Calendar, Slack), and Meta Cloud API webhooks.",
       skills: ["Next.js 16", "Composio", "WhatsApp API", "AWS EC2"]
@@ -39,7 +39,7 @@ export default function AboutPage() {
       glowBg: "bg-emerald-500/10 group-hover:bg-emerald-500/20",
       icon: Brain,
       shortRole: "LLM Reasoning",
-      badgeClass: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
+      badgeClass: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20",
       role: "Prompt Design & Task Extraction",
       desc: "Designed few-shot prompt architectures, structured JSON action item extractors, and sliding-window conversational memory logic.",
       skills: ["AWS Bedrock", "Nova Pro", "Prompts", "JSON Schema"]
@@ -52,7 +52,7 @@ export default function AboutPage() {
       glowBg: "bg-amber-500/10 group-hover:bg-amber-500/20",
       icon: ShieldCheck,
       shortRole: "Security & QA",
-      badgeClass: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+      badgeClass: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20",
       role: "Security Engineering & Testing",
       desc: "Implemented AWS KMS envelope encryption for OAuth tokens, strict prompt/SQL injection filters, and cross-tenant isolation tests.",
       skills: ["AWS KMS", "AES-256", "Pen-Testing", "Sanitization"]

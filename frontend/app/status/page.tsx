@@ -20,9 +20,9 @@ export default function StatusPage() {
 
       <main className="flex-1 py-16 md:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Banner */}
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-6 md:p-8 flex items-center justify-between gap-4">
+        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 dark:bg-emerald-950/20 p-6 md:p-8 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="size-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <div className="size-12 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
               <CheckCircle2 className="size-6" />
             </div>
             <div>
@@ -39,7 +39,7 @@ export default function StatusPage() {
         <div className="glass-card rounded-2xl p-6 border border-border space-y-4">
           <div className="flex items-center justify-between text-xs">
             <span className="font-semibold text-foreground">Global Availability (Past 90 Days)</span>
-            <span className="font-mono text-emerald-400 font-bold">99.87%</span>
+            <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">99.87%</span>
           </div>
 
           {/* Visual bar graph representation */}
@@ -70,7 +70,7 @@ export default function StatusPage() {
                 <span className="font-medium text-foreground">{comp.name}</span>
                 <div className="flex items-center gap-4 font-mono">
                   <span className="text-muted-foreground">{comp.uptime}</span>
-                  <span className="text-emerald-400 flex items-center gap-1.5 font-semibold">
+                  <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 font-semibold">
                     <span className="size-1.5 rounded-full bg-emerald-500" />
                     {comp.status}
                   </span>

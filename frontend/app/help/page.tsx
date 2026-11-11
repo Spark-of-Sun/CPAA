@@ -455,7 +455,7 @@ export default function HelpPage() {
                     </p>
 
                     {activeGuide.steps[activeStepIndex].code && (
-                      <div className="rounded-xl bg-zinc-950 border border-zinc-800 p-4 font-mono text-xs text-emerald-400 overflow-x-auto">
+                      <div className="rounded-xl bg-muted/60 dark:bg-zinc-950 border border-border dark:border-zinc-800 p-4 font-mono text-xs text-emerald-600 dark:text-emerald-400 overflow-x-auto shadow-inner">
                         <pre className="whitespace-pre-wrap">{activeGuide.steps[activeStepIndex].code}</pre>
                       </div>
                     )}
@@ -472,9 +472,9 @@ export default function HelpPage() {
 
                     {activeGuide.steps[activeStepIndex].warning && (
                       <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-3.5 flex items-start gap-2.5 text-xs text-foreground/90">
-                        <AlertTriangle className="size-4 text-amber-400 shrink-0 mt-0.5" />
+                        <AlertTriangle className="size-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                         <div>
-                          <span className="font-semibold text-amber-400">Important: </span>
+                          <span className="font-semibold text-amber-700 dark:text-amber-400">Important: </span>
                           <span>{activeGuide.steps[activeStepIndex].warning}</span>
                         </div>
                       </div>
@@ -549,7 +549,7 @@ export default function HelpPage() {
                       </p>
 
                       {step.code && (
-                        <div className="ml-9 rounded-xl bg-zinc-950 border border-zinc-800 p-3 font-mono text-xs text-emerald-400 overflow-x-auto">
+                        <div className="ml-9 rounded-xl bg-muted/60 dark:bg-zinc-950 border border-border dark:border-zinc-800 p-3 font-mono text-xs text-emerald-600 dark:text-emerald-400 overflow-x-auto shadow-inner">
                           <pre className="whitespace-pre-wrap">{step.code}</pre>
                         </div>
                       )}
@@ -566,9 +566,9 @@ export default function HelpPage() {
 
                       {step.warning && (
                         <div className="ml-9 rounded-xl bg-amber-500/10 border border-amber-500/20 p-3 flex items-start gap-2 text-xs text-foreground/90">
-                          <AlertTriangle className="size-3.5 text-amber-400 shrink-0 mt-0.5" />
+                          <AlertTriangle className="size-3.5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                           <div>
-                            <span className="font-semibold text-amber-400">Important: </span>
+                            <span className="font-semibold text-amber-700 dark:text-amber-400">Important: </span>
                             <span>{step.warning}</span>
                           </div>
                         </div>
