@@ -1,13 +1,19 @@
 """
 Agent Manager - Strands Agents SDK with Composio MCP
+Supports:
+  - Mode 1: AWS Bedrock Amazon Nova Pro (apac.amazon.nova-pro-v1:0 / amazon.nova-pro-v1:0)
+  - Mode 2: Google Free Tier API (gemini-2.5-flash / gemini-1.5-flash)
 """
 import os
 import shutil
 import time
 from typing import Optional, Dict, Any, Tuple
+import boto3
 from strands import Agent
 from strands.models.gemini import GeminiModel
+from strands.models.bedrock import BedrockModel
 from strands.session.file_session_manager import FileSessionManager
+from strands.session.s3_session_manager import S3SessionManager
 from strands.agent.conversation_manager import SlidingWindowConversationManager
 from strands.tools.mcp import MCPClient
 from mcp.client.streamable_http import streamablehttp_client
@@ -18,54 +24,103 @@ from strands_tools import current_time, mem0_memory
 
 
 # Models & Provider Configuration
-DEFAULT_MODEL_PROVIDER = "google"
+DEFAULT_BEDROCK_MODEL_ID = "apac.amazon.nova-pro-v1:0"
 DEFAULT_GEMINI_MODEL_ID = "gemini-3.5-flash"
-DEFAULT_BEDROCK_MODEL_ID = "apac.amazon.nova-lite-v1:0"
 
 
-def _init_model():
-    """Initialize the model based on MODEL_PROVIDER and credentials (defaults to Google Gemini)"""
-    api_key = (
-        os.getenv("GEMINI_API_KEY")
-        or os.getenv("GOOGLE_API_KEY")
-        or getattr(settings, "gemini_api_key", None)
-        or getattr(settings, "google_api_key", None)
-        or None
-    )
-    raw_provider = os.getenv("MODEL_PROVIDER", getattr(settings, "model_provider", DEFAULT_MODEL_PROVIDER)).lower()
+def _create_aws_boto_session() -> boto3.Session:
+    """Create a boto3 Session respecting AWS_REGION and credentials, or IAM instance profiles."""
+    region = os.getenv("AWS_REGION", getattr(settings, "aws_region", "ap-south-1"))
+    access_key = os.getenv("AWS_ACCESS_KEY_ID", getattr(settings, "aws_access_key_id", ""))
+    secret_key = os.getenv("AWS_SECRET_ACCESS_KEY", getattr(settings, "aws_secret_access_key", ""))
 
-    # Prioritize Google Gemini if API key is present or if provider is google/gemini or default
-    if api_key or raw_provider in ("google", "gemini"):
-        provider = "google"
-    elif raw_provider == "bedrock":
-        provider = "bedrock"
-    else:
-        provider = "google"
+    kwargs: Dict[str, Any] = {"region_name": region}
+    if access_key and secret_key:
+        kwargs["aws_access_key_id"] = access_key
+        kwargs["aws_secret_access_key"] = secret_key
 
-    if provider == "google":
-        model_id = os.getenv("MODEL_ID", getattr(settings, "model_id", DEFAULT_GEMINI_MODEL_ID))
-        # Safeguard against stale Bedrock or deprecated Gemini model IDs in environment
-        if any(prefix in model_id.lower() for prefix in ["amazon", "nova", "apac.", "bedrock", "gemini-2.5-flash"]):
-            model_id = DEFAULT_GEMINI_MODEL_ID
+    return boto3.Session(**kwargs)
+
+
+def get_model(provider: Optional[str] = None, model_id: Optional[str] = None):
+    """
+    Initialize and return the LLM model based on provider mode.
+      Mode 1: AWS Bedrock Nova Pro ('bedrock')
+      Mode 2: Google Free Tier API ('google')
+    """
+    selected_provider = (
+        provider
+        or os.getenv("MODEL_PROVIDER")
+        or getattr(settings, "model_provider", "bedrock")
+    ).lower().strip()
+
+    # Normalize provider synonyms
+    if selected_provider in ("nova", "aws", "aws_bedrock", "bedrock"):
+        selected_provider = "bedrock"
+    elif selected_provider in ("gemini", "google"):
+        selected_provider = "google"
+
+    if selected_provider == "bedrock":
+        region = os.getenv("AWS_REGION", getattr(settings, "aws_region", "ap-south-1"))
+        chosen_model_id = (
+            model_id
+            or os.getenv("MODEL_ID")
+            or settings.get_effective_model_id()
+        )
+        # Avoid carrying over a Google model ID into Bedrock
+        if not chosen_model_id or "gemini" in chosen_model_id.lower():
+            chosen_model_id = (
+                "apac.amazon.nova-pro-v1:0"
+                if ("ap-" in region.lower() or "apac" in region.lower())
+                else "amazon.nova-pro-v1:0"
+            )
+
+        try:
+            session = _create_aws_boto_session()
+            model = BedrockModel(boto_session=session, model_id=chosen_model_id)
+            print(f"✅ LLM Mode 1 Active: AWS Bedrock Nova Pro [{chosen_model_id}] (Region: {region})")
+            return model
+        except Exception as e:
+            print(f"⚠️ Bedrock initialization failed ({e}), falling back to default Nova Pro...")
+            session = _create_aws_boto_session()
+            return BedrockModel(boto_session=session, model_id=DEFAULT_BEDROCK_MODEL_ID)
+
+    elif selected_provider == "google":
+        api_key = (
+            os.getenv("GEMINI_API_KEY")
+            or os.getenv("GOOGLE_API_KEY")
+            or getattr(settings, "gemini_api_key", None)
+            or getattr(settings, "google_api_key", None)
+            or None
+        )
+        chosen_model_id = (
+            model_id
+            or os.getenv("MODEL_ID")
+            or settings.get_effective_model_id()
+        )
+        # Avoid carrying over a Nova/Bedrock model ID into Gemini
+        if not chosen_model_id or any(k in chosen_model_id.lower() for k in ["nova", "amazon", "apac.", "bedrock"]):
+            chosen_model_id = DEFAULT_GEMINI_MODEL_ID
+        # Map decommissioned 2.5 flash to current active 3.5 flash
+        if "gemini-2.5" in chosen_model_id.lower():
+            chosen_model_id = DEFAULT_GEMINI_MODEL_ID
 
         client_args = {"api_key": api_key} if api_key else None
         try:
-            model = GeminiModel(model_id=model_id, client_args=client_args)
-            print(f"✅ Model: {model_id} (Google Gemini)")
+            model = GeminiModel(model_id=chosen_model_id, client_args=client_args)
+            print(f"✅ LLM Mode 2 Active: Google Free Tier API [{chosen_model_id}]")
             return model
         except Exception as e:
             print(f"⚠️ Google Model load failed ({e}), falling back to {DEFAULT_GEMINI_MODEL_ID}")
             return GeminiModel(model_id=DEFAULT_GEMINI_MODEL_ID, client_args=client_args)
     else:
-        from strands.models.bedrock import BedrockModel
-        model_id = os.getenv("MODEL_ID", DEFAULT_BEDROCK_MODEL_ID)
-        try:
-            model = BedrockModel(model_id=model_id)
-            print(f"✅ Model: {model_id} (Bedrock)")
-            return model
-        except Exception as e:
-            print(f"⚠️ Bedrock Model load failed ({e}), using default {DEFAULT_BEDROCK_MODEL_ID}")
-            return BedrockModel(model_id=DEFAULT_BEDROCK_MODEL_ID)
+        raise ValueError(
+            f"Unsupported MODEL_PROVIDER '{selected_provider}'. Must be 'bedrock' (AWS Bedrock Nova Pro) or 'google' (Google Free Tier API)."
+        )
+
+
+def _init_model():
+    return get_model()
 
 
 MODEL = _init_model()
@@ -164,10 +219,18 @@ class AgentManager:
         self._composio_client: Optional[Composio] = None
         self._mcp_clients: Dict[str, MCPClient] = {}
         self._tools_cache: Dict[str, Dict[str, Any]] = {}
+        self.model = MODEL
 
         if self.composio_api_key:
             self._composio_client = Composio(api_key=self.composio_api_key)
             print("✅ Composio initialized")
+
+    def refresh_model(self, provider: Optional[str] = None, model_id: Optional[str] = None):
+        """Switch or reload the active LLM model."""
+        global MODEL
+        MODEL = get_model(provider=provider, model_id=model_id)
+        self.model = MODEL
+        return self.model
 
     # ─── MCP URL ────────────────────────────────────────────────────────────
 
@@ -226,19 +289,47 @@ class AgentManager:
 
     # ─── Session ────────────────────────────────────────────────────────────
 
-    def _get_session_manager(self, user_id: str) -> FileSessionManager:
+    def _get_session_manager(self, user_id: str):
         safe_id = user_id.replace("|", "_").replace(":", "_")
+        session_id = f"user-{safe_id}"
+        session_type = os.getenv("AGENT_SESSION_TYPE", getattr(settings, "agent_session_type", "file")).lower().strip()
+
+        if session_type == "s3":
+            bucket = os.getenv("S3_SESSION_BUCKET", getattr(settings, "s3_session_bucket", "agent-sessions"))
+            prefix = os.getenv("S3_SESSION_PREFIX", getattr(settings, "s3_session_prefix", "whatsapp-agent/"))
+            session = _create_aws_boto_session()
+            return S3SessionManager(
+                session_id=session_id,
+                bucket=bucket,
+                prefix=prefix,
+                boto_session=session
+            )
+
         return FileSessionManager(
-            session_id=f"user-{safe_id}",
+            session_id=session_id,
             storage_dir=self.session_dir
         )
 
     def _clear_user_session(self, user_id: str):
         safe_id = user_id.replace("|", "_").replace(":", "_")
-        session_path = os.path.join(self.session_dir, f"user-{safe_id}")
+        session_id = f"user-{safe_id}"
+        session_type = os.getenv("AGENT_SESSION_TYPE", getattr(settings, "agent_session_type", "file")).lower().strip()
+
+        if session_type == "s3":
+            try:
+                bucket = os.getenv("S3_SESSION_BUCKET", getattr(settings, "s3_session_bucket", "agent-sessions"))
+                prefix = os.getenv("S3_SESSION_PREFIX", getattr(settings, "s3_session_prefix", "whatsapp-agent/"))
+                session = _create_aws_boto_session()
+                s3_mgr = S3SessionManager(session_id=session_id, bucket=bucket, prefix=prefix, boto_session=session)
+                s3_mgr.delete_session(session_id)
+                print(f"🗑️ Cleared S3 session for {user_id}")
+            except Exception as e:
+                print(f"⚠️ Failed to clear S3 session for {user_id}: {e}")
+
+        session_path = os.path.join(self.session_dir, session_id)
         if os.path.exists(session_path):
             shutil.rmtree(session_path, ignore_errors=True)
-            print(f"🗑️ Cleared session for {user_id}")
+            print(f"🗑️ Cleared local session for {user_id}")
 
     # ─── Agent Run ──────────────────────────────────────────────────────────
 
@@ -262,7 +353,7 @@ class AgentManager:
             system_prompt = system_prompt + PROMPT_NOTE
 
             agent = Agent(
-                model=MODEL,
+                model=self.model or MODEL,
                 system_prompt=system_prompt,
                 tools=tools + [current_time, mem0_memory],
                 session_manager=session_manager,

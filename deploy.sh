@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# CPAA Automated Deployment Script for Azure VM + Cloudflare
+# CPAA Automated Deployment Script for AWS EC2 + Cloudflare
 # ==============================================================================
 set -e
 
-echo "🚀 Starting CPAA deployment on Azure VM..."
+echo "🚀 Starting CPAA deployment on AWS EC2..."
 
 # 1. Check if .env exists
 if [ ! -f .env ]; then
@@ -14,7 +14,7 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
-# 2. Guard low-spec Azure VMs with automatic 4GB Swapfile
+# 2. Guard low-spec AWS EC2 instances (e.g. t3.small/t4g.small) with automatic 4GB Swapfile
 TOTAL_SWAP_KB=$(grep SwapTotal /proc/meminfo | awk '{print $2}')
 if [ "$TOTAL_SWAP_KB" -lt 2097152 ]; then
     echo "⚠️ Low swap detected (${TOTAL_SWAP_KB} kB). Creating 4GB swapfile to prevent Next.js build OOM..."

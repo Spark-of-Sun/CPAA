@@ -1,4 +1,4 @@
-name: Deploy CPAA to Azure VM
+name: Deploy CPAA to AWS EC2
 
 on:
   push:
@@ -8,23 +8,23 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to Azure VM via SSH
+    name: Deploy to AWS EC2 via SSH
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Deploy on Azure VM
+      - name: Deploy on AWS EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.AZURE_VM_HOST }}
-          username: ${{ secrets.AZURE_VM_USER }}
-          key: ${{ secrets.AZURE_SSH_KEY }}
-          port: ${{ secrets.AZURE_SSH_PORT || 22 }}
+          host: ${{ secrets.AWS_EC2_HOST || secrets.AZURE_VM_HOST }}
+          username: ${{ secrets.AWS_EC2_USER || secrets.AZURE_VM_USER || 'ubuntu' }}
+          key: ${{ secrets.AWS_SSH_KEY || secrets.AZURE_SSH_KEY }}
+          port: ${{ secrets.AWS_SSH_PORT || secrets.AZURE_SSH_PORT || 22 }}
           script_stop: true
           script: |
-            echo "🚀 Starting automated deployment on Azure VM..."
+            echo "🚀 Starting automated deployment on AWS EC2..."
             # Auto-detect project location
             PROJECT_DIR="/opt/cpaa"
             if [ ! -d "$PROJECT_DIR" ]; then
