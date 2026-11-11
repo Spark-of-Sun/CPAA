@@ -52,7 +52,7 @@ export default function SecurityPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {securityPillars.map((p) => (
             <div key={p.title} className="glass-card rounded-2xl p-6 border border-border space-y-3">
-              <div className="size-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+              <div className="size-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                 <ShieldCheck className="size-5" />
               </div>
               <h3 className="font-bold text-base text-foreground">{p.title}</h3>

@@ -43,7 +43,7 @@ export default function CareersPage() {
 
       <main className="flex-1 py-16 md:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <Badge variant="outline" className="px-3 py-1 border-emerald-500/30 text-emerald-400 bg-emerald-500/10">
+          <Badge variant="outline" className="px-3 py-1 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10">
             We Are Hiring
           </Badge>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">

@@ -126,8 +126,8 @@ export default function DocumentationPage() {
                 CPAA is structured into six independent layers to ensure high availability (99.87%), rapid iteration, and strict user isolation:
               </p>
 
-              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-300 space-y-2 overflow-x-auto">
-                <p className="text-emerald-400"># 6-Layer System Architecture</p>
+              <div className="p-5 rounded-2xl bg-muted/60 dark:bg-zinc-950 border border-border dark:border-zinc-800 font-mono text-xs text-foreground dark:text-zinc-300 space-y-2 overflow-x-auto shadow-inner">
+                <p className="text-emerald-600 dark:text-emerald-400 font-semibold"># 6-Layer System Architecture</p>
                 <p>[User on WhatsApp] ──&gt; (Meta Cloud API Webhook)</p>
                 <p>                     │</p>
                 <p>                     ▼</p>
@@ -155,7 +155,7 @@ export default function DocumentationPage() {
                 Backend orchestrators can interact with the agent manager via FastAPI client bindings:
               </p>
 
-              <div className="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 font-mono text-xs text-zinc-300 overflow-x-auto">
+              <div className="p-5 rounded-2xl bg-muted/60 dark:bg-zinc-950 border border-border dark:border-zinc-800 font-mono text-xs text-foreground dark:text-zinc-300 overflow-x-auto shadow-inner">
                 <pre>{`import httpx
 
 async def query_cpaa_agent(user_id: str, prompt: str):

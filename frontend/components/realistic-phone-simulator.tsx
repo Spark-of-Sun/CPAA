@@ -225,19 +225,19 @@ export function RealisticPhoneSimulator() {
       </div>
 
       {/* Realistic Phone Hardware Chassis */}
-      <div className="relative w-full max-w-[370px] aspect-[9/18.5] bg-zinc-950 rounded-[48px] p-3 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.1),0_0_30px_rgba(99,102,241,0.15)] ring-1 ring-zinc-800 transition-all select-none">
+      <div className="relative w-full max-w-[370px] aspect-[9/18.5] bg-slate-900 dark:bg-zinc-950 rounded-[48px] p-3 shadow-[0_20px_50px_-15px_rgba(15,23,42,0.25),0_0_0_1px_rgba(15,23,42,0.1)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.1),0_0_30px_rgba(99,102,241,0.15)] ring-1 ring-slate-700/60 dark:ring-zinc-800 transition-all select-none">
         
         {/* Subtle Outer Hardware Edge Buttons */}
-        <div className="absolute -left-[3px] top-[110px] w-[3px] h-[30px] bg-zinc-700/80 rounded-l" />
-        <div className="absolute -left-[3px] top-[150px] w-[3px] h-[45px] bg-zinc-700/80 rounded-l" />
-        <div className="absolute -left-[3px] top-[205px] w-[3px] h-[45px] bg-zinc-700/80 rounded-l" />
-        <div className="absolute -right-[3px] top-[140px] w-[3px] h-[65px] bg-zinc-700/80 rounded-r" />
+        <div className="absolute -left-[3px] top-[110px] w-[3px] h-[30px] bg-slate-700 dark:bg-zinc-700/80 rounded-l" />
+        <div className="absolute -left-[3px] top-[150px] w-[3px] h-[45px] bg-slate-700 dark:bg-zinc-700/80 rounded-l" />
+        <div className="absolute -left-[3px] top-[205px] w-[3px] h-[45px] bg-slate-700 dark:bg-zinc-700/80 rounded-l" />
+        <div className="absolute -right-[3px] top-[140px] w-[3px] h-[65px] bg-slate-700 dark:bg-zinc-700/80 rounded-r" />
 
         {/* Inner Screen Display */}
-        <div className="w-full h-full bg-[#0b141a] rounded-[38px] overflow-hidden flex flex-col relative border border-zinc-800/90 shadow-inner">
+        <div className="w-full h-full bg-[#efeae2] dark:bg-[#0b141a] rounded-[38px] overflow-hidden flex flex-col relative border border-slate-300/80 dark:border-zinc-800/90 shadow-inner transition-colors">
           
           {/* Top Notch / Dynamic Island & Status Bar */}
-          <div className="h-10 bg-[#1f2c34] px-6 flex items-center justify-between text-zinc-300 text-[11px] shrink-0 font-medium z-20">
+          <div className="h-10 bg-[#008069] dark:bg-[#1f2c34] px-6 flex items-center justify-between text-emerald-100 dark:text-zinc-300 text-[11px] shrink-0 font-medium z-20 transition-colors">
             <span>9:41</span>
             
             {/* Dynamic Island pill */}
@@ -246,30 +246,30 @@ export function RealisticPhoneSimulator() {
               <div className="size-1.5 rounded-full bg-zinc-800" />
             </div>
 
-            <div className="flex items-center gap-1.5 text-zinc-400">
+            <div className="flex items-center gap-1.5 text-emerald-100/80 dark:text-zinc-400">
               <Wifi className="size-3" />
               <BatteryMedium className="size-3.5" />
             </div>
           </div>
 
           {/* WhatsApp Brand Header */}
-          <div className="bg-[#1f2c34] px-3 py-2.5 flex items-center justify-between border-b border-[#2a3942] z-10 shadow-md">
+          <div className="bg-[#008069] dark:bg-[#1f2c34] px-3 py-2.5 flex items-center justify-between border-b border-[#006e5a] dark:border-[#2a3942] z-10 shadow-md text-white transition-colors">
             <div className="flex items-center gap-2">
-              <ArrowLeft className="size-4 text-zinc-300 cursor-pointer" />
+              <ArrowLeft className="size-4 text-white dark:text-zinc-300 cursor-pointer" />
               <div className="relative">
-                <div className="size-9 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white font-bold shadow">
+                <div className="size-9 rounded-full bg-white/20 dark:bg-gradient-to-tr dark:from-emerald-500 dark:to-teal-400 flex items-center justify-center text-white font-bold shadow">
                   <Bot className="size-4 text-white" />
                 </div>
-                <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-emerald-500 ring-2 ring-[#1f2c34]" />
+                <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-emerald-400 ring-2 ring-[#008069] dark:ring-[#1f2c34]" />
               </div>
               <div className="leading-tight">
                 <div className="flex items-center gap-1.5">
-                  <h4 className="text-xs font-semibold text-zinc-100">CPAA Agent</h4>
-                  <span className="text-[9px] bg-emerald-500/20 text-emerald-400 px-1 py-0.2 rounded font-medium">Verified AI</span>
+                  <h4 className="text-xs font-semibold text-white dark:text-zinc-100">CPAA Agent</h4>
+                  <span className="text-[9px] bg-white/20 text-emerald-100 dark:bg-emerald-500/20 dark:text-emerald-400 px-1 py-0.2 rounded font-medium">Verified AI</span>
                 </div>
-                <p className="text-[10px] text-zinc-400 transition-all">
+                <p className="text-[10px] text-emerald-100/90 dark:text-zinc-400 transition-all">
                   {isTyping ? (
-                    <span className="text-emerald-400 font-medium animate-pulse">typing...</span>
+                    <span className="text-white dark:text-emerald-400 font-medium animate-pulse">typing...</span>
                   ) : (
                     "online • 2.1s response"
                   )}
@@ -277,7 +277,7 @@ export function RealisticPhoneSimulator() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 text-zinc-300">
+            <div className="flex items-center gap-3 text-white/80 dark:text-zinc-300">
               <Video className="size-4 opacity-75" />
               <Phone className="size-4 opacity-75" />
               <MoreVertical className="size-4 opacity-75" />
@@ -287,18 +287,18 @@ export function RealisticPhoneSimulator() {
           {/* Chat Messages Body (WhatsApp Wallpaper Texture) */}
           <div
             ref={chatScrollRef}
-            className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#0b141a] bg-grid-pattern relative text-[11px]"
+            className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#efeae2] dark:bg-[#0b141a] bg-grid-pattern relative text-[11px] transition-colors"
           >
             {/* Encryption Pill */}
             <div className="flex justify-center my-1">
-              <span className="text-[9px] text-[#ffd279] bg-[#182229] px-2.5 py-1 rounded-md text-center max-w-[260px] leading-tight border border-[#222d34]">
+              <span className="text-[9px] text-[#54656f] bg-[#ffeecd] border border-[#f0dfba] dark:text-[#ffd279] dark:bg-[#182229] dark:border-[#222d34] px-2.5 py-1 rounded-md text-center max-w-[260px] leading-tight">
                 🔒 Messages are end-to-end encrypted with AES-256 AWS KMS.
               </span>
             </div>
 
             {/* Date Pill */}
             <div className="flex justify-center">
-              <span className="text-[10px] bg-[#182229] text-zinc-400 px-2 py-0.5 rounded-md font-medium uppercase tracking-wider">
+              <span className="text-[10px] bg-white/90 text-slate-600 border border-slate-200/60 shadow-xs dark:bg-[#182229] dark:text-zinc-400 dark:border-transparent px-2 py-0.5 rounded-md font-medium uppercase tracking-wider">
                 Today
               </span>
             </div>
@@ -313,22 +313,22 @@ export function RealisticPhoneSimulator() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2 shadow-sm relative ${
                       isUser
-                        ? 'bg-[#005c4b] text-[#e9edef] rounded-tr-none'
-                        : 'bg-[#202c33] text-[#e9edef] rounded-tl-none border border-[#2a3942]'
+                        ? 'bg-[#d9fdd3] text-[#111b21] dark:bg-[#005c4b] dark:text-[#e9edef] rounded-tr-none'
+                        : 'bg-white text-[#111b21] border border-black/5 dark:bg-[#202c33] dark:text-[#e9edef] dark:border-[#2a3942] rounded-tl-none'
                     }`}
                   >
                     {!isUser && (
-                      <div className="flex items-center gap-1 text-[10px] text-indigo-400 font-semibold mb-1">
+                      <div className="flex items-center gap-1 text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold mb-1">
                         <Sparkles className="size-2.5" />
                         <span>Autonomous Assistant</span>
                       </div>
                     )}
 
-                    <p className="leading-relaxed whitespace-pre-line text-xs font-sans">
+                    <p className="leading-relaxed whitespace-pre-line text-xs font-sans text-slate-800 dark:text-[#e9edef]">
                       {msg.text}
                     </p>
 
-                    <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-zinc-400">
+                    <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-slate-500 dark:text-zinc-400">
                       <span>{msg.time}</span>
                       {isUser && <CheckCheck className="size-3 text-[#53bdeb]" />}
                     </div>
@@ -336,7 +336,7 @@ export function RealisticPhoneSimulator() {
 
                   {/* Tool Action Pill attached underneath agent message */}
                   {!isUser && msg.toolPill && (
-                    <div className="mt-1 ml-1 flex items-center gap-1.5 px-2 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-[10px] font-mono text-zinc-300 shadow-sm animate-in fade-in">
+                    <div className="mt-1 ml-1 flex items-center gap-1.5 px-2 py-1 rounded-lg bg-white/95 border border-slate-200 text-slate-700 shadow-xs dark:bg-zinc-900/90 dark:border-zinc-800 text-[10px] font-mono dark:text-zinc-300 animate-in fade-in">
                       <span className="shrink-0">{msg.toolPill.icon}</span>
                       <span className="truncate max-w-[240px]">{msg.toolPill.label}</span>
                     </div>
@@ -348,24 +348,24 @@ export function RealisticPhoneSimulator() {
             {/* Typing Indicator */}
             {isTyping && (
               <div className="flex justify-start animate-in fade-in">
-                <div className="bg-[#202c33] text-zinc-400 rounded-2xl rounded-tl-none px-3.5 py-2 flex items-center gap-1 border border-[#2a3942] shadow-sm">
-                  <span className="text-[10px] mr-1 text-emerald-400 font-medium">CPAA is typing</span>
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="bg-white text-slate-600 border border-slate-200 shadow-xs dark:bg-[#202c33] dark:text-zinc-400 rounded-2xl rounded-tl-none px-3.5 py-2 flex items-center gap-1 dark:border-[#2a3942]">
+                  <span className="text-[10px] mr-1 text-emerald-600 dark:text-emerald-400 font-medium">CPAA is typing</span>
+                  <span className="size-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="size-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="size-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             )}
           </div>
 
           {/* Bottom Chat Bar */}
-          <div className="bg-[#1f2c34] p-2 flex items-center gap-2 border-t border-[#2a3942] shrink-0">
-            <div className="flex items-center gap-2 text-zinc-400 pl-1">
+          <div className="bg-[#f0f2f5] dark:bg-[#1f2c34] p-2 flex items-center gap-2 border-t border-slate-200/80 dark:border-[#2a3942] shrink-0 transition-colors">
+            <div className="flex items-center gap-2 text-slate-500 dark:text-zinc-400 pl-1">
               <Smile className="size-4" />
               <Paperclip className="size-4" />
             </div>
 
-            <div className="flex-1 bg-[#2a3942] rounded-full px-3 py-1.5 text-xs text-zinc-400 flex items-center justify-between">
+            <div className="flex-1 bg-white dark:bg-[#2a3942] rounded-full px-3 py-1.5 text-xs text-slate-500 dark:text-zinc-400 flex items-center justify-between border border-slate-200 dark:border-transparent shadow-xs">
               <span className="truncate text-[11px]">Message CPAA...</span>
             </div>
 
@@ -375,8 +375,8 @@ export function RealisticPhoneSimulator() {
           </div>
 
           {/* Home Bar Indicator */}
-          <div className="h-3 bg-[#1f2c34] flex justify-center items-center shrink-0">
-            <div className="w-28 h-1 bg-zinc-600 rounded-full" />
+          <div className="h-3 bg-[#f0f2f5] dark:bg-[#1f2c34] flex justify-center items-center shrink-0 transition-colors">
+            <div className="w-28 h-1 bg-slate-400 dark:bg-zinc-600 rounded-full" />
           </div>
         </div>
       </div>
@@ -385,7 +385,7 @@ export function RealisticPhoneSimulator() {
       <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-card/80 border border-border shadow-sm text-xs">
         <span className="size-2 rounded-full bg-emerald-500 animate-ping" />
         <span className="text-muted-foreground">Productivity Gained Today:</span>
-        <span className="font-bold text-emerald-400 font-mono">+{cumulativeSaved} mins</span>
+        <span className="font-bold text-emerald-700 dark:text-emerald-400 font-mono">+{cumulativeSaved} mins</span>
       </div>
     </div>
   );

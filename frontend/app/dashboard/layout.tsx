@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { GuestProvider, GUEST_USER } from "@/contexts/guest-context"
 import {
   Loader2,
@@ -109,12 +110,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
               {/* Status Pill */}
               {isGuest ? (
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 border border-amber-500/25 text-amber-400">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 border border-amber-500/25 text-amber-700 dark:text-amber-400">
                   <Eye className="size-3" />
                   <span>Guest Mode</span>
                 </div>
               ) : (
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400">
                   <span className="relative flex size-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full size-2 bg-emerald-500"></span>
@@ -124,7 +125,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               )}
 
               {linking?.linked && (
-                <Button asChild size="sm" variant="outline" className="h-8 gap-1.5 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300">
+                <Button asChild size="sm" variant="outline" className="h-8 gap-1.5 border-emerald-500/30 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-800 dark:hover:text-emerald-300">
                   <a
                     href={`https://wa.me/${linking.phone_number?.replace(/\+/g, "")}`}
                     target="_blank"
@@ -146,6 +147,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   </a>
                 </Button>
               )}
+
+              {/* Theme Switcher - Right Most */}
+              <div className="h-4 w-px bg-border/80 hidden sm:block mx-0.5" />
+              <ThemeToggle />
             </div>
           </header>
 

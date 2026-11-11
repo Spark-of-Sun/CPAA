@@ -144,7 +144,7 @@ export default function PricingPage() {
               }`}
             >
               <span>Annual</span>
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-bold">
+              <span className="text-[10px] bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.2 rounded font-bold">
                 Save 20%
               </span>
             </button>
@@ -158,7 +158,7 @@ export default function PricingPage() {
               key={tier.name}
               className={`rounded-2xl p-6 flex flex-col justify-between transition-all ${
                 tier.highlight
-                  ? "bg-gradient-to-b from-indigo-950/40 via-card to-card border-2 border-indigo-500/50 shadow-2xl relative"
+                  ? "bg-gradient-to-b from-indigo-500/10 via-card to-card dark:from-indigo-950/40 dark:via-card dark:to-card border-2 border-indigo-500/50 shadow-2xl relative"
                   : "glass-card border border-border/80"
               }`}
             >
@@ -186,7 +186,7 @@ export default function PricingPage() {
                   <ul className="space-y-2">
                     {tier.features.map((feat) => (
                       <li key={feat} className="text-xs text-muted-foreground flex items-start gap-2">
-                        <Check className="size-4 text-emerald-400 shrink-0 mt-0.5" />
+                        <Check className="size-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </li>
                     ))}

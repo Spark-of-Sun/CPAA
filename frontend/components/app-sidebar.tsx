@@ -163,7 +163,7 @@ export function AppSidebar({
                 href={`https://wa.me/${linking.phone_number?.replace(/\+/g, '')}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400 hover:text-emerald-300 hover:underline pt-1"
+                className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400 hover:underline pt-1"
               >
                 Open WhatsApp <ExternalLink className="size-2.5" />
               </a>
@@ -185,7 +185,7 @@ export function AppSidebar({
           <div className="space-y-2 p-1">
             <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2.5">
               <div className="flex items-center gap-2 mb-1.5">
-                <div className="size-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">
+                <div className="size-6 rounded-lg bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold">
                   G
                 </div>
                 <div>

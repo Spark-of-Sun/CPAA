@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Bot, ExternalLink } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function MarketingFooter() {
   return (
@@ -137,13 +138,19 @@ export function MarketingFooter() {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} CPAA.</p>
-          <div className="flex items-center gap-4">
-            <span>OAuth 2.0 Token Isolation</span>
-            <span>•</span>
-            <span>AES-256 AWS KMS</span>
-            <span>•</span>
-            <span>Meta WhatsApp Cloud API</span>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <p>© {new Date().getFullYear()} CPAA.</p>
+            <span className="hidden sm:inline">•</span>
+            <div className="hidden sm:flex items-center gap-3">
+              <span>OAuth 2.0 Token Isolation</span>
+              <span>•</span>
+              <span>AES-256 AWS KMS</span>
+              <span>•</span>
+              <span>Meta WhatsApp Cloud API</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle showLabel={true} />
           </div>
         </div>
       </div>

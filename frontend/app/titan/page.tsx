@@ -27,7 +27,7 @@ export default function TitanPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 mb-6 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 mb-6 backdrop-blur-md">
             <Sparkles className="size-3.5" />
             <span>Next-Gen Autonomous Intelligence Engine</span>
           </div>
@@ -57,25 +57,25 @@ export default function TitanPage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               <div className="p-6 rounded-2xl glass-card">
-                <p className="text-3xl sm:text-4xl font-black text-emerald-400 font-mono">97%</p>
+                <p className="text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400 font-mono">97%</p>
                 <p className="text-xs font-semibold text-foreground mt-2">Extraction Accuracy</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">Unstructured action items</p>
               </div>
 
               <div className="p-6 rounded-2xl glass-card">
-                <p className="text-3xl sm:text-4xl font-black text-indigo-400 font-mono">2.1s</p>
+                <p className="text-3xl sm:text-4xl font-black text-indigo-600 dark:text-indigo-400 font-mono">2.1s</p>
                 <p className="text-xs font-semibold text-foreground mt-2">Average Response</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">1.4s at 100 concurrent users</p>
               </div>
 
               <div className="p-6 rounded-2xl glass-card">
-                <p className="text-3xl sm:text-4xl font-black text-purple-400 font-mono">150 RPS</p>
+                <p className="text-3xl sm:text-4xl font-black text-purple-600 dark:text-purple-400 font-mono">150 RPS</p>
                 <p className="text-xs font-semibold text-foreground mt-2">Peak Throughput</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">FastAPI & Redis queue</p>
               </div>
 
               <div className="p-6 rounded-2xl glass-card">
-                <p className="text-3xl sm:text-4xl font-black text-sky-400 font-mono">89%</p>
+                <p className="text-3xl sm:text-4xl font-black text-sky-600 dark:text-sky-400 font-mono">89%</p>
                 <p className="text-xs font-semibold text-foreground mt-2">Tool Cache Hit Rate</p>
                 <p className="text-[11px] text-muted-foreground mt-0.5">-300ms latency savings</p>
               </div>
@@ -96,7 +96,7 @@ export default function TitanPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="glass-card rounded-2xl p-7 space-y-4">
-              <div className="size-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+              <div className="size-12 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                 <Brain className="size-6" />
               </div>
               <h3 className="text-xl font-bold text-foreground">10-Message Sliding Window</h3>
@@ -106,7 +106,7 @@ export default function TitanPage() {
             </div>
 
             <div className="glass-card rounded-2xl p-7 space-y-4">
-              <div className="size-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+              <div className="size-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                 <Workflow className="size-6" />
               </div>
               <h3 className="text-xl font-bold text-foreground">Conflict-Free Coordination</h3>
@@ -116,7 +116,7 @@ export default function TitanPage() {
             </div>
 
             <div className="glass-card rounded-2xl p-7 space-y-4">
-              <div className="size-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+              <div className="size-12 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                 <Lock className="size-6" />
               </div>
               <h3 className="text-xl font-bold text-foreground">Transient Zero-Retention</h3>
