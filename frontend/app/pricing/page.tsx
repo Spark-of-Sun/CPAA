@@ -85,7 +85,7 @@ export default function PricingPage() {
         "99.9% Financial-Backed Uptime SLA",
         "1-Year Immutable Audit Logs",
         "VPC / Private Gateway Deployment",
-        "Enterprise IdP (Okta, Azure AD, SAML)",
+        "Enterprise IdP (Okta, AWS IAM / SAML, Microsoft Entra)",
         "Dedicated Security Architect",
       ]
     }

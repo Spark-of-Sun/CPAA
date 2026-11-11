@@ -60,18 +60,30 @@ COMPOSIO_AUTH_JIRA=
 
 
 
-# Google API Configuration (Gemini)
+# ==============================================================================
+# AI Models & Provider Modes
+# ==============================================================================
+# Mode 1: AWS Bedrock Amazon Nova Pro
+#   MODEL_PROVIDER=bedrock
+#   MODEL_ID=apac.amazon.nova-pro-v1:0   (for ap-south-1 Mumbai / APAC)
+#   MODEL_ID=amazon.nova-pro-v1:0        (for us-east-1 / us-west-2)
+#
+# Mode 2: Google Free Tier API
+#   MODEL_PROVIDER=google
+#   MODEL_ID=gemini-2.5-flash            (or gemini-1.5-flash)
+# ==============================================================================
+MODEL_PROVIDER=bedrock
+MODEL_ID=apac.amazon.nova-pro-v1:0
+
+# Google API (Required if MODEL_PROVIDER=google)
 # Get your API key from Google AI Studio: https://aistudio.google.com/
 GEMINI_API_KEY=
 # or GOOGLE_API_KEY=
 
-# Model Configuration (defaults to Google Gemini)
-# Provider options: "google", "bedrock"
-MODEL_PROVIDER=google
-# Model options: "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash", etc.
-MODEL_ID=gemini-3.5-flash
-
-# AWS (Optional - only needed if using Bedrock or S3 session storage)
-AWS_REGION=
+# AWS (Required if MODEL_PROVIDER=bedrock or AGENT_SESSION_TYPE=s3)
+# Note: On an AWS EC2 instance with an IAM role, access keys can be left empty.
+AWS_REGION=ap-south-1
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
+S3_SESSION_BUCKET=agent-sessions
+S3_SESSION_PREFIX=whatsapp-agent/

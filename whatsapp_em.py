@@ -13,7 +13,7 @@ HOW IT WORKS
 
 USAGE
     python whatsapp_emulator.py
-    python whatsapp_emulator.py --phone 911111111111 --app-url http://127.0.0.1:8000/webhook
+    python whatsapp_emulator.py --phone 918250079029 --app-url http://127.0.0.1:8000/webhook
 """
 import argparse
 import json
