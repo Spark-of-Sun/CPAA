@@ -102,11 +102,11 @@ export default function RequestAccessPage() {
 
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label htmlFor="company" className="text-xs font-semibold">Company or University *</Label>
+                  <Label htmlFor="company" className="text-xs font-semibold">Company or Organization *</Label>
                   <Input
                     id="company"
                     required
-                    placeholder="Acme Corp / AMC Engineering College"
+                    placeholder="Acme Corp / Personal Project"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                   />

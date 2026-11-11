@@ -48,7 +48,7 @@ export default function TermsPage() {
           <section className="space-y-2">
             <h2 className="text-base font-bold text-foreground">5. Intellectual Property & Attribution</h2>
             <p className="text-muted-foreground">
-              CPAA and its proprietary multi-agent orchestration architecture are developed by researchers at the Department of CSE (AIML), AMC Engineering College, Bengaluru. All rights reserved.
+              CPAA and its multi-agent orchestration architecture are developed and maintained by Ganpati Kumar Sah as a personal open-source software project. All rights reserved.
             </p>
           </section>
         </div>

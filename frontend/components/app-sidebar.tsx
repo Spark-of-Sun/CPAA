@@ -97,7 +97,7 @@ export function AppSidebar({
                   <div className="flex items-center gap-1.5">
                     <span className="truncate font-bold tracking-tight text-foreground">CPAA</span>
                   </div>
-                  <span className="truncate text-[11px] text-muted-foreground">Autonomous Copilot</span>
+                  <span className="truncate text-[11px] text-muted-foreground">Configurable Personal AI Agent</span>
                 </div>
               </Link>
             </SidebarMenuButton>

@@ -26,6 +26,7 @@ export const api = {
 
   // Tools
   getAvailableTools: () => fetchAPI('/tools/available'),
+  getUpcomingTools: () => fetchAPI('/tools/upcoming'),
   getConnectedTools: () => fetchAPI('/tools/connected'),
   connectTool: (toolkit: string) => fetchAPI(`/tools/connect/${toolkit}`, { method: 'POST' }),
   disconnectTool: (toolkit: string) => fetchAPI(`/tools/disconnect/${toolkit}`, { method: 'DELETE' }),

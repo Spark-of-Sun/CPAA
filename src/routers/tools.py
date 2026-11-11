@@ -15,6 +15,13 @@ async def list_available_toolkits():
     return {"toolkits": toolkits}
 
 
+@router.get("/upcoming")
+async def list_upcoming_toolkits():
+    """List all upcoming/coming soon toolkits defined in .env without an auth key"""
+    upcoming = composio_service._get_env_upcoming_toolkits()
+    return {"upcoming": upcoming}
+
+
 @router.get("/connected")
 async def get_connected_tools(user: dict = Depends(get_current_user_dep)):
     """Get user's connected tools"""

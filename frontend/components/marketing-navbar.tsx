@@ -18,7 +18,6 @@ import {
   ChevronDown,
   BookOpen,
   Code2,
-  Terminal,
   Activity,
   ShieldCheck,
   Building2,
@@ -111,17 +110,6 @@ export function MarketingNavbar() {
                   <div>
                     <span className="font-semibold text-xs text-foreground">Documentation</span>
                     <p className="text-[11px] text-muted-foreground mt-0.5">Quickstarts, guides & architecture</p>
-                  </div>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="p-2.5 rounded-lg cursor-pointer">
-                <Link href="/console" className="flex items-start gap-3">
-                  <div className="size-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                    <Terminal className="size-4" />
-                  </div>
-                  <div>
-                    <span className="font-semibold text-xs text-foreground">Console</span>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">Developer sandbox & API keys</p>
                   </div>
                 </Link>
               </DropdownMenuItem>
@@ -260,7 +248,6 @@ export function MarketingNavbar() {
           <div className="grid grid-cols-2 gap-2 text-xs font-medium">
             <Link href="/request-access" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg bg-muted/40">Request Access</Link>
             <Link href="/docs" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg bg-muted/40">Documentation</Link>
-            <Link href="/console" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg bg-muted/40">Console</Link>
             <Link href="/status" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg bg-muted/40">System Status</Link>
             <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg bg-muted/40">About Us</Link>
             <Link href="/news" onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-lg bg-muted/40">News</Link>

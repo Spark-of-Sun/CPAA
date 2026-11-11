@@ -56,11 +56,6 @@ export function MarketingFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/console" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Developer Console
-                </Link>
-              </li>
-              <li>
                 <Link href="/status" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
                   <span>Status</span>
                   <span className="size-1.5 rounded-full bg-emerald-500" />
