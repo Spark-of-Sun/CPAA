@@ -1,6 +1,8 @@
 __pycache__
 volumes
 .env
+.env.*
+!.env.production.example
 .vscode
 .venv
 .venv2
@@ -9,4 +11,6 @@ oauth_test.sh
 check_redis.py
 whatsapp_em.py
 mcp_server_tool_update.py
-whatsapp_em.py
+mcp_updater.py
+test_bedrock.py
+temp.py

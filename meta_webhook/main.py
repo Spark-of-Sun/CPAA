@@ -1,8 +1,12 @@
+import os
 from fastapi import FastAPI, Request
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
-VERIFY_TOKEN = "***REDACTED_META_TOKEN***"  # must match what you set in Meta dashboard
+VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "")  # must match what you set in Meta dashboard
 
 # Step 1: Verification endpoint (Meta calls this once when you set webhook)
 @app.get("/webhook")
