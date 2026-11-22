@@ -1,6 +1,7 @@
 __pycache__
 volumes
 .env
+.env.production.example
 .env.*
 .vscode
 .venv
