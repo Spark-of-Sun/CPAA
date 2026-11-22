@@ -2,7 +2,6 @@ __pycache__
 volumes
 .env
 .env.*
-!.env.production.example
 .vscode
 .venv
 .venv2
@@ -13,6 +12,7 @@ whatsapp_em.py
 mcp_server_tool_update.py
 mcp_updater.py
 test_bedrock.py
-temp.py/.env.production.example
+temp.py
+.env.production.example
 *.pem
 *.key
