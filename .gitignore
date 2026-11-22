@@ -13,4 +13,6 @@ whatsapp_em.py
 mcp_server_tool_update.py
 mcp_updater.py
 test_bedrock.py
-temp.py
+temp.py/.env.production.example
+*.pem
+*.key
